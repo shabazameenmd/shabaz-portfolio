@@ -1,0 +1,190 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 5%;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+/* CODE BLOCK */
+.code-block {
+  background: #050d1a;
+  border: 1px solid rgba(0, 245, 255, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.82rem;
+}
+
+.code-header {
+  background: rgba(0, 245, 255, 0.05);
+  padding: 0.7rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid rgba(0, 245, 255, 0.1);
+}
+
+.dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+}
+.dot.red { background: #ff5f57; }
+.dot.yellow { background: #febc2e; }
+.dot.green { background: #28c840; }
+
+.file-name {
+  margin-left: 8px;
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+}
+
+.code-body {
+  padding: 1.2rem 1.5rem;
+  line-height: 1.9;
+  color: var(--text-primary);
+}
+
+.code-body p { margin: 0; }
+.indent { padding-left: 1.5rem; }
+.indent2 { padding-left: 3rem; }
+.kw { color: #c792ea; }
+.cls { color: #82aaff; }
+.type { color: #ffcb6b; }
+.str { color: #c3e88d; }
+.num { color: #f78c6c; }
+.comment { color: #546e7a; font-style: italic; }
+
+.about-description {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin-bottom: 1.2rem;
+}
+
+.about-description strong {
+  color: var(--neon-cyan);
+}
+
+.about-education {
+  margin-top: 1.5rem;
+}
+
+.edu-badge {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: rgba(0, 245, 255, 0.04);
+  border: 1px solid rgba(0, 245, 255, 0.15);
+  border-radius: 10px;
+}
+
+.edu-icon { font-size: 1.5rem; }
+
+.edu-badge strong {
+  display: block;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.edu-badge p {
+  color: var(--text-secondary);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.78rem;
+  margin: 4px 0 0;
+}
+
+/* INFO PANEL */
+.info-heading {
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  color: var(--neon-cyan);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(0, 245, 255, 0.15);
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  background: rgba(0, 245, 255, 0.03);
+  border: 1px solid rgba(0, 245, 255, 0.08);
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+
+.info-item:hover {
+  border-color: rgba(0, 245, 255, 0.25);
+  background: rgba(0, 245, 255, 0.06);
+  transform: translateX(4px);
+}
+
+.info-icon {
+  color: var(--neon-cyan);
+  font-size: 1rem;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.info-label {
+  display: block;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--neon-purple);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.info-value {
+  display: block;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  word-break: break-all;
+}
+
+.availability-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 1rem 1.5rem;
+  margin-top: 1.5rem;
+  background: rgba(57, 255, 20, 0.05);
+  border: 1px solid rgba(57, 255, 20, 0.25);
+  border-radius: 10px;
+  color: var(--neon-green);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+.pulse-dot {
+  width: 8px; height: 8px;
+  background: var(--neon-green);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--neon-green);
+  animation: pulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.6; }
+}
+
+@media (max-width: 900px) {
+  .about-grid { grid-template-columns: 1fr; }
+}

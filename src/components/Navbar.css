@@ -1,0 +1,122 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 5%;
+  transition: all 0.4s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.navbar.scrolled {
+  background: rgba(2, 4, 8, 0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 245, 255, 0.15);
+  box-shadow: 0 4px 30px rgba(0, 245, 255, 0.05);
+}
+
+.nav-logo {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.4rem;
+  font-weight: 900;
+  cursor: pointer;
+  letter-spacing: 2px;
+}
+
+.logo-bracket {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 10px var(--neon-cyan);
+}
+
+.logo-text {
+  color: var(--text-primary);
+  margin: 0 2px;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2.5rem;
+}
+
+.nav-links li {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.3s;
+  position: relative;
+  text-transform: uppercase;
+}
+
+.nav-links li::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--neon-cyan);
+  transition: width 0.3s;
+  box-shadow: 0 0 6px var(--neon-cyan);
+}
+
+.nav-links li:hover,
+.nav-links li.active {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 8px var(--neon-cyan);
+}
+
+.nav-links li:hover::after,
+.nav-links li.active::after {
+  width: 100%;
+}
+
+.nav-num {
+  color: var(--neon-purple);
+  margin-right: 4px;
+  font-size: 0.75rem;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--neon-cyan);
+  border-radius: 2px;
+  transition: all 0.3s;
+  box-shadow: 0 0 6px var(--neon-cyan);
+}
+
+.nav-links.mobile {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(2, 4, 8, 0.97);
+  backdrop-filter: blur(20px);
+  flex-direction: column;
+  padding: 2rem 5%;
+  gap: 1.5rem;
+  border-bottom: 1px solid rgba(0, 245, 255, 0.15);
+}
+
+@media (max-width: 768px) {
+  .nav-links.desktop { display: none; }
+  .hamburger { display: flex; }
+}

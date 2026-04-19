@@ -1,0 +1,155 @@
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 2rem;
+}
+
+.project-card {
+  position: relative;
+  background: rgba(10, 15, 26, 0.85);
+  border: 1px solid rgba(0, 245, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 0.4s;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.project-card:hover {
+  border-color: var(--proj-color, var(--neon-cyan));
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.project-top-bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--proj-color, var(--neon-cyan)), transparent);
+}
+
+.project-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(0, 245, 255, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  border-radius: 16px;
+}
+
+.project-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.project-icon {
+  font-size: 2.2rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.project-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--proj-color, var(--neon-cyan));
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.project-company {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+}
+
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 245, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 245, 255, 0.06);
+}
+
+.project-meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.project-meta svg {
+  color: var(--proj-color, var(--neon-cyan));
+  flex-shrink: 0;
+}
+
+.project-description {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.project-features h4 {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--proj-color, var(--neon-cyan));
+  margin-bottom: 0.75rem;
+}
+
+.project-features ul {
+  list-style: none;
+  margin-bottom: 1.5rem;
+}
+
+.project-features li {
+  display: flex;
+  gap: 8px;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.feat-bullet {
+  color: var(--proj-color, var(--neon-cyan));
+  font-size: 0.55rem;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.proj-tag {
+  padding: 0.25rem 0.7rem;
+  background: rgba(0, 245, 255, 0.05);
+  border: 1px solid rgba(0, 245, 255, 0.15);
+  border-radius: 4px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+}
+
+.project-card:hover .proj-tag {
+  border-color: rgba(0, 245, 255, 0.3);
+  color: var(--proj-color, var(--neon-cyan));
+}
+
+@media (max-width: 500px) {
+  .projects-grid { grid-template-columns: 1fr; }
+}
