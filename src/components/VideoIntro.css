@@ -1,0 +1,335 @@
+.vi-section {
+  padding: 100px 0;
+  position: relative;
+}
+
+/* ─── Layout ─── */
+.vi-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+/* ─── Video Frame ─── */
+.vi-player-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+}
+
+.vi-frame {
+  position: relative;
+  background: #000;
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  border: 1px solid rgba(0, 245, 255, 0.2);
+  box-shadow:
+    0 0 0 1px rgba(0, 245, 255, 0.06),
+    0 0 60px rgba(0, 245, 255, 0.1),
+    0 40px 80px rgba(0, 0, 0, 0.6);
+}
+
+/* Neon corner accents */
+.vi-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.vi-tl { top: -1px; left: -1px; border-top: 2px solid var(--neon-cyan); border-left: 2px solid var(--neon-cyan); border-radius: 4px 0 0 0; }
+.vi-tr { top: -1px; right: -1px; border-top: 2px solid var(--neon-cyan); border-right: 2px solid var(--neon-cyan); border-radius: 0 4px 0 0; }
+.vi-bl { bottom: -1px; left: -1px; border-bottom: 2px solid var(--neon-cyan); border-left: 2px solid var(--neon-cyan); border-radius: 0 0 0 4px; }
+.vi-br { bottom: -1px; right: -1px; border-bottom: 2px solid var(--neon-cyan); border-right: 2px solid var(--neon-cyan); border-radius: 0 0 4px 0; }
+
+/* Animated scan line */
+.vi-scan-line {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.5), transparent);
+  z-index: 4;
+  animation: viScan 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes viScan {
+  0% { top: 0; opacity: 1; }
+  90% { opacity: 0.6; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.vi-embed {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: none;
+}
+
+/* HTML5 video wrapper */
+.vi-html5-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.vi-html5-wrap .vi-embed {
+  object-fit: cover;
+}
+
+/* Play overlay */
+.vi-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(2, 4, 8, 0.65);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  z-index: 3;
+  gap: 1rem;
+  transition: background 0.3s;
+}
+
+.vi-play-overlay:hover { background: rgba(2, 4, 8, 0.45); }
+
+.vi-play-btn {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 245, 255, 0.12);
+  border: 2px solid var(--neon-cyan);
+  border-radius: 50%;
+  font-size: 1.8rem;
+  color: var(--neon-cyan);
+  box-shadow: 0 0 30px rgba(0, 245, 255, 0.3);
+  transition: all 0.3s;
+  animation: viPulseBtn 2s ease-in-out infinite;
+}
+
+@keyframes viPulseBtn {
+  0%, 100% { box-shadow: 0 0 20px rgba(0, 245, 255, 0.3); transform: scale(1); }
+  50% { box-shadow: 0 0 40px rgba(0, 245, 255, 0.5); transform: scale(1.06); }
+}
+
+.vi-play-overlay p {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ─── Placeholder ─── */
+.vi-placeholder {
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  border: 1px dashed rgba(0, 245, 255, 0.2);
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+}
+
+.vi-ph-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+.vi-ph-icon {
+  font-size: 3rem;
+  color: rgba(0, 245, 255, 0.25);
+  margin-bottom: 0.5rem;
+}
+
+.vi-ph-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(224, 244, 255, 0.4);
+}
+
+.vi-ph-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 320px;
+  opacity: 0.7;
+}
+
+.vi-ph-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1.2rem;
+  background: rgba(0, 245, 255, 0.06);
+  border: 1px solid rgba(0, 245, 255, 0.2);
+  border-radius: 8px;
+  color: var(--neon-cyan);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.vi-ph-btn:hover {
+  background: rgba(0, 245, 255, 0.12);
+  box-shadow: 0 0 15px rgba(0, 245, 255, 0.1);
+}
+
+/* ─── Info Panel (horizontal strip below video) ─── */
+.vi-info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem 2.5rem;
+  width: 100%;
+  max-width: 960px;
+  padding: 1.5rem 2rem;
+  background: rgba(10, 15, 26, 0.7);
+  border: 1px solid rgba(0, 245, 255, 0.08);
+  border-radius: 14px;
+  text-align: center;
+}
+
+.vi-info-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.3rem 0.9rem;
+  background: rgba(0, 245, 255, 0.06);
+  border: 1px solid rgba(0, 245, 255, 0.15);
+  border-radius: 20px;
+  color: var(--neon-cyan);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+}
+
+.vi-tag-icon { font-size: 0.8rem; }
+
+.vi-info-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  width: 100%;
+}
+
+.vi-info-desc {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  max-width: 680px;
+  width: 100%;
+}
+
+.vi-hl { color: var(--neon-cyan); font-weight: 600; }
+
+/* Quick facts inline */
+.vi-quick-facts {
+  display: flex;
+  gap: 2rem;
+}
+
+.vi-fact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.vi-fact-num {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--neon-cyan);
+  line-height: 1;
+}
+
+.vi-fact-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--text-secondary);
+  text-align: center;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+/* Tags */
+.vi-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.vi-tag {
+  padding: 0.25rem 0.7rem;
+  background: rgba(0, 245, 255, 0.04);
+  border: 1px solid rgba(0, 245, 255, 0.12);
+  border-radius: 4px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.vi-tag:hover {
+  border-color: rgba(0, 245, 255, 0.3);
+  color: var(--neon-cyan);
+}
+
+/* YouTube link */
+.vi-yt-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.5rem 1.2rem;
+  background: rgba(255, 0, 0, 0.06);
+  border: 1px solid rgba(255, 0, 0, 0.2);
+  border-radius: 8px;
+  color: #ff4444;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.78rem;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.vi-yt-link:hover {
+  background: rgba(255, 0, 0, 0.1);
+  border-color: rgba(255, 0, 0, 0.4);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 600px) {
+  .vi-player-wrap, .vi-placeholder { max-width: 100%; }
+  .vi-info { padding: 1.25rem; gap: 1rem 1.5rem; }
+  .vi-info-title { font-size: 0.95rem; }
+  .vi-quick-facts { gap: 1.25rem; }
+  .vi-fact-num { font-size: 1.1rem; }
+}

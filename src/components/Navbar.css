@@ -116,6 +116,33 @@
   border-bottom: 1px solid rgba(0, 245, 255, 0.15);
 }
 
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-admin-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(0, 245, 255, 0.05);
+  border: 1px solid rgba(0, 245, 255, 0.12);
+  border-radius: 8px;
+  color: rgba(122, 156, 196, 0.5);
+  font-size: 0.8rem;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+
+.nav-admin-btn:hover {
+  background: rgba(0, 245, 255, 0.1);
+  border-color: rgba(0, 245, 255, 0.3);
+  color: var(--neon-cyan);
+}
+
 @media (max-width: 768px) {
   .nav-links.desktop { display: none; }
   .hamburger { display: flex; }

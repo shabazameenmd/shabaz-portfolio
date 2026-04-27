@@ -63,13 +63,25 @@ export default function Hero() {
           >
             <span className="role-prefix">&gt;_</span>
             <TypewriterText texts={[
-              'Java Backend Developer',
+              'AI Agent Developer',
+              'LLM Orchestration Engineer',
               'Technical Lead @ HCLTech',
+              'Java Backend Developer',
               'Microservices Architect',
               'Apache Kafka Engineer',
-              'Spring Boot Specialist'
+              'Spring Boot Specialist',
             ]} />
             <span className="cursor-blink">|</span>
+          </motion.div>
+
+          <motion.div
+            className="hero-ai-highlight"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.38 }}
+          >
+            <span className="hero-ai-dot" />
+            <span>Specializing in <strong>Autonomous AI Agents</strong> — LangChain, Claude AI, RAG, Multi-Agent Systems</span>
           </motion.div>
 
           <motion.p
@@ -78,9 +90,9 @@ export default function Hero() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.45 }}
           >
-            10+ years of experience crafting high-performance backend systems.
-            Specializing in Microservices, Event-Driven Architecture, and
-            distributed systems with Spring Boot & Apache Kafka.
+            10+ years crafting high-performance backend systems, now building
+            autonomous AI agents that think, decide, and act. Combining
+            Microservices, Event-Driven Architecture & LLM orchestration.
           </motion.p>
 
           <motion.div
@@ -95,8 +107,8 @@ export default function Hero() {
             </div>
             <div className="stat-divider" />
             <div className="stat">
-              <span className="stat-num">3</span>
-              <span className="stat-label">Major Projects</span>
+              <span className="stat-num">4+</span>
+              <span className="stat-label">AI Agents Built</span>
             </div>
             <div className="stat-divider" />
             <div className="stat">
@@ -150,13 +162,13 @@ export default function Hero() {
               <img src="/avatar.png" alt="Mohammed Shabaz Amin" className="avatar-img" />
             </div>
             <div className="avatar-badge badge-1">
-              <span>Spring Boot</span>
+              <span>🤖 AI Agent Dev</span>
             </div>
             <div className="avatar-badge badge-2">
               <span>Apache Kafka</span>
             </div>
             <div className="avatar-badge badge-3">
-              <span>HCLTech</span>
+              <span>Claude AI</span>
             </div>
             <div className="avatar-badge badge-4">
               <span>AWS Cloud</span>

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { FiLock } from 'react-icons/fi';
 import './Navbar.css';
 
 const navLinks = ['Home', 'About', 'Skills', 'Experience', 'Projects', 'Contact'];
@@ -8,6 +10,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState('Home');
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -18,8 +22,16 @@ export default function Navbar() {
   const handleNav = (link) => {
     setActive(link);
     setMenuOpen(false);
-    const el = document.getElementById(link.toLowerCase());
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        const el = document.getElementById(link.toLowerCase());
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 120);
+    } else {
+      const el = document.getElementById(link.toLowerCase());
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -43,11 +55,17 @@ export default function Navbar() {
         ))}
       </ul>
 
-      <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
-        <span className={menuOpen ? 'open' : ''}></span>
-        <span className={menuOpen ? 'open' : ''}></span>
-        <span className={menuOpen ? 'open' : ''}></span>
-      </button>
+      <div className="nav-right">
+        <a href="/admin" className="nav-admin-btn" title="Admin Panel">
+          <FiLock />
+        </a>
+
+        <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+          <span className={menuOpen ? 'open' : ''}></span>
+          <span className={menuOpen ? 'open' : ''}></span>
+          <span className={menuOpen ? 'open' : ''}></span>
+        </button>
+      </div>
 
       <AnimatePresence>
         {menuOpen && (

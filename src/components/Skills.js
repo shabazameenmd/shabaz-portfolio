@@ -6,68 +6,51 @@ const skillCategories = [
   {
     title: 'Backend Core',
     color: '#00f5ff',
-    skills: [
-      { name: 'Core Java 1.8', level: 95 },
-      { name: 'Spring Boot', level: 92 },
-      { name: 'Spring MVC', level: 90 },
-      { name: 'Hibernate', level: 85 },
-      { name: 'J2EE / JSP', level: 80 },
-    ],
+    icon: '⚙️',
+    skills: ['Core Java 1.8', 'Spring Boot', 'Spring MVC', 'Hibernate', 'J2EE / JSP'],
   },
   {
     title: 'Messaging & Cloud',
     color: '#bf00ff',
-    skills: [
-      { name: 'Apache Kafka', level: 90 },
-      { name: 'Kafka Streams', level: 85 },
-      { name: 'AWS', level: 78 },
-      { name: 'Microservices', level: 92 },
-      { name: 'CQRS / Saga Pattern', level: 82 },
-    ],
+    icon: '☁️',
+    skills: ['Apache Kafka', 'Kafka Streams', 'AWS', 'Microservices', 'CQRS / Saga Pattern'],
   },
   {
     title: 'Database & Tools',
     color: '#39ff14',
-    skills: [
-      { name: 'MS SQL Server', level: 88 },
-      { name: 'Oracle DB', level: 80 },
-      { name: 'JDBC', level: 85 },
-      { name: 'Maven', level: 82 },
-      { name: 'Eclipse IDE', level: 90 },
-    ],
+    icon: '🗄️',
+    skills: ['MS SQL Server', 'Oracle DB', 'JDBC', 'Maven', 'Eclipse IDE'],
   },
   {
     title: 'Frontend & Process',
     color: '#ff006e',
-    skills: [
-      { name: 'JavaScript', level: 70 },
-      { name: 'HTML & CSS', level: 72 },
-      { name: 'SQL Queries', level: 88 },
-      { name: 'SCRUM / Agile', level: 85 },
-      { name: 'Design Patterns', level: 88 },
-    ],
+    icon: '🖥️',
+    skills: ['JavaScript', 'HTML & CSS', 'SQL Queries', 'SCRUM / Agile', 'Design Patterns'],
   },
   {
     title: 'AI & Prompt Engineering',
     color: '#ffb700',
-    skills: [
-      { name: 'Prompt Engineering', level: 92 },
-      { name: 'Claude AI', level: 90 },
-      { name: 'ChatGPT', level: 90 },
-      { name: 'Google Gemini', level: 88 },
-      { name: 'AI Agent Development', level: 85 },
-    ],
+    icon: '🤖',
+    skills: ['Prompt Engineering', 'Claude AI', 'ChatGPT', 'Google Gemini', 'AI Agent Development', 'LangChain', 'RAG'],
   },
 ];
 
-const techBadges = [
-  'Java', 'Spring Boot', 'Apache Kafka', 'Kafka Streams', 'Microservices',
-  'AWS', 'Hibernate', 'Spring MVC', 'JDBC', 'MS SQL Server', 'Oracle',
-  'JSP', 'JavaScript', 'Maven', 'SCRUM', 'CQRS', 'Saga Pattern', 'Event-Driven',
-  'Prompt Engineering', 'Claude AI', 'ChatGPT', 'Google Gemini', 'AI Agents'
+const roadmap = [
+  { label: 'Core Java & Spring Boot',     sub: 'Mastered',          status: 'done',     icon: '⚙️' },
+  { label: 'Apache Kafka & Streams',      sub: 'Mastered',          status: 'done',     icon: '⚡' },
+  { label: 'AWS & Microservices',         sub: 'Mastered',          status: 'done',     icon: '☁️' },
+  { label: 'Prompt Engineering',          sub: 'Mastered',          status: 'done',     icon: '✍️' },
+  { label: 'Anthropic Claude',            sub: 'Mastered',          status: 'done',     icon: '🧬' },
+  { label: 'AI Agent Building',           sub: 'Learning Now',      status: 'current',  icon: '🤖' },
+  { label: 'AI Agent Automation',         sub: 'On My Plate',       status: 'upcoming', icon: '🔄' },
+  { label: 'Multi-Agent Orchestration',   sub: 'Coming Up',         status: 'upcoming', icon: '🧠' },
+  { label: 'LLMs & Fine-Tuning',          sub: 'Future Vision',     status: 'upcoming', icon: '🔮' },
 ];
 
 export default function Skills() {
+  const currentIdx = roadmap.findIndex(r => r.status === 'current');
+  const fillPct = ((currentIdx + 0.5) / roadmap.length) * 100;
+
   return (
     <section id="skills">
       <div className="container">
@@ -82,59 +65,115 @@ export default function Skills() {
           <p className="section-subtitle">// SKILLS.MATRIX</p>
         </motion.div>
 
-        <div className="skills-grid">
+        {/* ── Skills box ── */}
+        <motion.div
+          className="skills-box"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+        >
+          <div className="skills-box-top-bar" />
+
           {skillCategories.map((cat, ci) => (
             <motion.div
               key={ci}
-              className="skill-card"
-              style={{ '--card-color': cat.color }}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              className="sk-row"
+              style={{ '--cat-color': cat.color }}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: ci * 0.12, duration: 0.6 }}
+              transition={{ delay: ci * 0.1, duration: 0.5 }}
             >
-              <h3 className="skill-card-title">{cat.title}</h3>
-              {cat.skills.map((skill, si) => (
-                <div key={si} className="skill-row">
-                  <div className="skill-info">
-                    <span className="skill-name">{skill.name}</span>
-                    <span className="skill-pct">{skill.level}%</span>
-                  </div>
-                  <div className="skill-bar-track">
-                    <motion.div
-                      className="skill-bar-fill"
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${skill.level}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1, delay: si * 0.1 + 0.3 }}
-                    />
-                  </div>
-                </div>
-              ))}
+              <div className="sk-row-label">
+                <span className="sk-icon">{cat.icon}</span>
+                <span className="sk-title">{cat.title}</span>
+              </div>
+
+              <div className="sk-divider" />
+
+              <div className="sk-tags">
+                {cat.skills.map((skill, si) => (
+                  <motion.span
+                    key={si}
+                    className="sk-tag"
+                    initial={{ opacity: 0, scale: 0.85 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: ci * 0.08 + si * 0.05 }}
+                    whileHover={{ scale: 1.06, y: -2 }}
+                  >
+                    {skill}
+                  </motion.span>
+                ))}
+              </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
+        {/* ── Learning Journey Timeline ── */}
         <motion.div
-          className="tech-badges"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          className="lr-section"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
         >
-          {techBadges.map((tech, i) => (
-            <motion.span
-              key={i}
-              className="tech-badge"
-              whileHover={{ scale: 1.08, y: -3 }}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.04 }}
-            >
-              {tech}
-            </motion.span>
-          ))}
+          <div className="lr-header">
+            <p className="lr-header-tag">// SKILLS.ROADMAP</p>
+            <h3 className="lr-title">Learning Journey</h3>
+            <p className="lr-desc">From mastered foundations to the frontier of autonomous AI</p>
+          </div>
+
+          <div className="lr-track-outer">
+            {/* Background track + filled portion */}
+            <div className="lr-track-line">
+              <div className="lr-track-bg" />
+              <div className="lr-track-fill" style={{ width: `${fillPct}%` }} />
+            </div>
+
+            <div className="lr-steps">
+              {roadmap.map((step, i) => (
+                <motion.div
+                  key={i}
+                  className={`lr-step lr-step--${step.status}`}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 + i * 0.07, duration: 0.4 }}
+                >
+                  {/* Dot area */}
+                  <div className="lr-dot-area">
+                    {step.status === 'current' && (
+                      <>
+                        <div className="lr-pulse-ring" />
+                        <div className="lr-pulse-ring lr-pulse-ring--2" />
+                      </>
+                    )}
+                    <div className="lr-dot">
+                      {step.status === 'done' ? '✓' : step.icon}
+                    </div>
+                  </div>
+
+                  {/* Label area */}
+                  <div className="lr-label-area">
+                    <span className="lr-name">{step.label}</span>
+                    <span className={`lr-sub lr-sub--${step.status}`}>
+                      {step.status === 'current' && <span className="lr-blink-dot" />}
+                      {step.sub}
+                    </span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Legend */}
+          <div className="lr-legend">
+            <span className="lr-leg-item lr-leg--done"><span className="lr-leg-dot" />Mastered</span>
+            <span className="lr-leg-item lr-leg--current"><span className="lr-leg-dot" />Learning Now</span>
+            <span className="lr-leg-item lr-leg--upcoming"><span className="lr-leg-dot" />Coming Up</span>
+          </div>
         </motion.div>
       </div>
     </section>

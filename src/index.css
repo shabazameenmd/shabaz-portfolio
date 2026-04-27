@@ -77,3 +77,9 @@ section {
 code {
   font-family: 'Share Tech Mono', monospace;
 }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 5%;
+}

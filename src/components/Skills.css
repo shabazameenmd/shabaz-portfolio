@@ -1,118 +1,430 @@
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin-bottom: 3rem;
-}
-
-.skills-grid > *:nth-child(4) { grid-column: 1 / 2; }
-.skills-grid > *:nth-child(5) { grid-column: 2 / 3; }
-
-.skill-card {
-  background: rgba(10, 15, 26, 0.8);
-  border: 1px solid rgba(var(--card-color, 0, 245, 255), 0.15);
-  border-top: 2px solid var(--card-color, var(--neon-cyan));
-  border-radius: 12px;
-  padding: 1.8rem;
-  transition: all 0.3s;
-  backdrop-filter: blur(10px);
-}
-
-.skill-card:hover {
-  border-color: var(--card-color, var(--neon-cyan));
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3), 0 0 1px var(--card-color, var(--neon-cyan));
-  transform: translateY(-4px);
-}
-
-.skill-card-title {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--card-color, var(--neon-cyan));
-  margin-bottom: 1.5rem;
-  text-shadow: 0 0 10px var(--card-color, var(--neon-cyan));
-}
-
-.skill-row {
-  margin-bottom: 1.1rem;
-}
-
-.skill-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 6px;
-}
-
-.skill-name {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  letter-spacing: 0.5px;
-}
-
-.skill-pct {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.75rem;
-  color: var(--card-color, var(--neon-cyan));
-}
-
-.skill-bar-track {
-  width: 100%;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 2px;
+/* ─── Single Skills Box ─── */
+.skills-box {
+  position: relative;
+  background: rgba(10, 15, 26, 0.85);
+  border: 1px solid rgba(0, 245, 255, 0.12);
+  border-radius: 18px;
   overflow: hidden;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
 }
 
-.skill-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--card-color, var(--neon-cyan)), rgba(255,255,255,0.3));
-  border-radius: 2px;
-  box-shadow: 0 0 8px var(--card-color, var(--neon-cyan));
+.skills-box-top-bar {
+  height: 3px;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink), #ffb700);
 }
 
-/* TECH BADGES */
-.tech-badges {
+/* ─── Each category row ─── */
+.sk-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid rgba(0, 245, 255, 0.05);
+  transition: background 0.2s;
+}
+
+.sk-row:last-child {
+  border-bottom: none;
+}
+
+.sk-row:hover {
+  background: rgba(0, 245, 255, 0.02);
+}
+
+/* ─── Left label ─── */
+.sk-row-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 220px;
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+
+.sk-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.sk-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--cat-color, var(--neon-cyan));
+}
+
+/* ─── Vertical divider ─── */
+.sk-divider {
+  width: 1px;
+  background: rgba(0, 245, 255, 0.08);
+  align-self: stretch;
+  margin: 0 1.75rem;
+  flex-shrink: 0;
+}
+
+/* ─── Skill tags ─── */
+.sk-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  justify-content: center;
-  padding: 2rem;
-  background: rgba(0, 245, 255, 0.02);
-  border: 1px solid rgba(0, 245, 255, 0.08);
-  border-radius: 16px;
+  gap: 8px;
+  align-items: center;
 }
 
-.tech-badge {
-  padding: 0.45rem 1.1rem;
-  background: rgba(0, 245, 255, 0.05);
-  border: 1px solid rgba(0, 245, 255, 0.2);
+.sk-tag {
+  display: inline-block;
+  padding: 0.3rem 0.85rem;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 6px;
   font-family: 'Share Tech Mono', monospace;
-  font-size: 0.78rem;
-  color: var(--neon-cyan);
-  letter-spacing: 1px;
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.3px;
   cursor: default;
   transition: all 0.2s;
 }
 
-.tech-badge:hover {
+.sk-row:hover .sk-tag {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.sk-tag:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--cat-color, var(--neon-cyan)) !important;
+  color: var(--cat-color, var(--neon-cyan));
+  box-shadow: 0 0 10px rgba(0, 245, 255, 0.08);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  .sk-row {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.1rem 1.25rem;
+  }
+
+  .sk-row-label { min-width: unset; }
+  .sk-divider { display: none; }
+}
+
+@media (max-width: 480px) {
+  .sk-tag { font-size: 0.7rem; padding: 0.25rem 0.65rem; }
+}
+
+/* ══════════════════════════════════════
+   LEARNING JOURNEY TIMELINE
+══════════════════════════════════════ */
+
+.lr-section {
+  margin-top: 2.75rem;
+}
+
+/* ─── Header ─── */
+.lr-header {
+  text-align: center;
+  margin-bottom: 2.25rem;
+}
+
+.lr-header-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--neon-cyan);
+  letter-spacing: 3px;
+  opacity: 0.65;
+  margin: 0;
+}
+
+.lr-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0.4rem 0 0.35rem;
+}
+
+.lr-desc {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ─── Track wrapper ─── */
+.lr-track-outer {
+  position: relative;
+  overflow-x: auto;
+  padding: 3rem 0.5rem 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 245, 255, 0.1) transparent;
+}
+
+/* ─── The horizontal line ─── */
+.lr-track-line {
+  position: absolute;
+  top: calc(3rem + 17px); /* align to center of 34px dot */
+  left: calc(0.5rem + 7%); /* start at center of first dot */
+  right: calc(0.5rem + 7%); /* end at center of last dot */
+  height: 2px;
+  pointer-events: none;
+}
+
+.lr-track-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+}
+
+.lr-track-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+  border-radius: 2px;
+  transition: width 1.2s ease;
+  box-shadow: 0 0 8px rgba(0, 245, 255, 0.3);
+}
+
+/* ─── Steps row ─── */
+.lr-steps {
+  display: flex;
+  min-width: max-content;
+  width: 100%;
+}
+
+.lr-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 115px;
+  position: relative;
+  cursor: default;
+}
+
+/* ─── Dot area ─── */
+.lr-dot-area {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 0.85rem;
+  flex-shrink: 0;
+}
+
+.lr-dot {
+  position: relative;
+  z-index: 2;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+/* Done */
+.lr-step--done .lr-dot {
   background: rgba(0, 245, 255, 0.12);
-  border-color: var(--neon-cyan);
-  box-shadow: 0 0 12px rgba(0, 245, 255, 0.2);
+  border: 2px solid var(--neon-cyan);
+  color: var(--neon-cyan);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+/* Current */
+.lr-step--current .lr-dot {
+  background: rgba(191, 0, 255, 0.18);
+  border: 2px solid var(--neon-purple);
   color: #fff;
+  font-size: 1.1rem;
+  box-shadow: 0 0 20px rgba(191, 0, 255, 0.5), 0 0 40px rgba(191, 0, 255, 0.2);
 }
 
-@media (max-width: 1000px) {
-  .skills-grid { grid-template-columns: repeat(2, 1fr); }
-  .skills-grid > *:nth-child(4),
-  .skills-grid > *:nth-child(5) { grid-column: auto; }
+/* Upcoming */
+.lr-step--upcoming .lr-dot {
+  background: rgba(255, 255, 255, 0.02);
+  border: 2px dashed rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.3);
 }
 
-@media (max-width: 600px) {
-  .skills-grid { grid-template-columns: 1fr; }
+/* ─── Pulse rings for current ─── */
+.lr-pulse-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--neon-purple);
+  animation: lrPulse 2s ease-out infinite;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.lr-pulse-ring--2 {
+  animation-delay: 1s;
+}
+
+@keyframes lrPulse {
+  0%   { transform: scale(1);   opacity: 0.75; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* ─── Label area ─── */
+.lr-label-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.28rem;
+  padding: 0 0.3rem;
+}
+
+.lr-name {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  line-height: 1.35;
+  letter-spacing: 0.2px;
+}
+
+.lr-step--done     .lr-name { color: rgba(0, 245, 255, 0.85); }
+.lr-step--current  .lr-name { color: #fff; font-weight: 700; letter-spacing: 0.5px; }
+.lr-step--upcoming .lr-name { color: rgba(255, 255, 255, 0.3); }
+
+.lr-sub {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.68rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.lr-sub--done     { color: rgba(0, 245, 255, 0.45); }
+.lr-sub--current  { color: var(--neon-purple); font-weight: 600; }
+.lr-sub--upcoming { color: rgba(255, 255, 255, 0.2); }
+
+/* ─── Blinking dot on "Learning Now" ─── */
+.lr-blink-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--neon-purple);
+  flex-shrink: 0;
+  animation: lrBlink 1s step-end infinite;
+  box-shadow: 0 0 6px var(--neon-purple);
+}
+
+@keyframes lrBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ─── Legend ─── */
+.lr-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.75rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.lr-leg-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.5px;
+}
+
+.lr-leg-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.lr-leg--done     .lr-leg-dot { background: var(--neon-cyan); }
+.lr-leg--done                  { color: rgba(0, 245, 255, 0.6); }
+
+.lr-leg--current  .lr-leg-dot {
+  background: var(--neon-purple);
+  box-shadow: 0 0 8px var(--neon-purple);
+  animation: lrBlink 1s step-end infinite;
+}
+.lr-leg--current               { color: var(--neon-purple); }
+
+.lr-leg--upcoming .lr-leg-dot { background: rgba(255, 255, 255, 0.2); border: 1px dashed rgba(255, 255, 255, 0.3); }
+.lr-leg--upcoming              { color: rgba(255, 255, 255, 0.3); }
+
+/* ─── Responsive — vertical timeline on mobile ─── */
+@media (max-width: 768px) {
+  .lr-track-outer {
+    overflow-x: visible;
+    padding: 0.5rem 0;
+  }
+
+  .lr-track-line { display: none; }
+
+  .lr-steps {
+    flex-direction: column;
+    min-width: unset;
+    position: relative;
+    padding-left: 1.25rem;
+    gap: 0;
+  }
+
+  /* Vertical guide line */
+  .lr-steps::before {
+    content: '';
+    position: absolute;
+    left: 17px;
+    top: 17px;
+    bottom: 17px;
+    width: 2px;
+    background: linear-gradient(
+      to bottom,
+      var(--neon-cyan) 0%,
+      var(--neon-purple) 50%,
+      rgba(255,255,255,0.07) 100%
+    );
+  }
+
+  .lr-step {
+    flex-direction: row;
+    min-width: unset;
+    flex: none;
+    align-items: flex-start;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .lr-label-area {
+    align-items: flex-start;
+    text-align: left;
+    padding: 0;
+    padding-top: 2px;
+  }
+
+  .lr-sub {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .lr-name { font-size: 0.7rem; }
+  .lr-sub  { font-size: 0.7rem; }
 }

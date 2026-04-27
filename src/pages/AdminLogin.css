@@ -1,0 +1,275 @@
+.admin-login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--dark-bg);
+  background-image:
+    linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  position: relative;
+  overflow: hidden;
+  padding: 2rem;
+}
+
+.al-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.al-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--neon-cyan);
+  border-radius: 50%;
+  animation: alFloat linear infinite;
+  opacity: 0.4;
+}
+
+@keyframes alFloat {
+  0% { transform: translateY(100vh) scale(0); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
+
+.al-card {
+  position: relative;
+  background: rgba(10, 15, 26, 0.95);
+  border: 1px solid rgba(0, 245, 255, 0.15);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 420px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 60px rgba(0, 245, 255, 0.05), 0 30px 80px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.al-top-bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink));
+}
+
+.al-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.al-logo {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.4rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+  letter-spacing: 2px;
+}
+
+.al-logo-bracket { color: var(--neon-cyan); }
+.al-logo-text { color: var(--text-primary); }
+
+.al-lock-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  background: rgba(0, 245, 255, 0.08);
+  border: 1px solid rgba(0, 245, 255, 0.2);
+  border-radius: 50%;
+  font-size: 1.3rem;
+  color: var(--neon-cyan);
+  margin-bottom: 1rem;
+  box-shadow: 0 0 20px rgba(0, 245, 255, 0.15);
+}
+
+.al-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.4rem;
+}
+
+.al-subtitle {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  letter-spacing: 3px;
+}
+
+.al-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.al-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.al-field label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--neon-cyan);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.al-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.al-input-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+.al-input-wrap input {
+  width: 100%;
+  background: rgba(0, 245, 255, 0.03);
+  border: 1px solid rgba(0, 245, 255, 0.12);
+  border-radius: 8px;
+  padding: 0.75rem 2.8rem;
+  color: var(--text-primary);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.al-input-wrap input:focus {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 15px rgba(0, 245, 255, 0.1);
+  background: rgba(0, 245, 255, 0.05);
+}
+
+.al-input-wrap input::placeholder {
+  color: rgba(122, 156, 196, 0.4);
+}
+
+.al-eye-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.al-eye-btn:hover { color: var(--neon-cyan); }
+
+.al-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.7rem 1rem;
+  background: rgba(255, 0, 110, 0.08);
+  border: 1px solid rgba(255, 0, 110, 0.25);
+  border-radius: 8px;
+  color: var(--neon-pink);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.8rem;
+}
+
+.al-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 0.5rem;
+  padding: 0.85rem;
+  background: linear-gradient(135deg, rgba(0, 245, 255, 0.15), rgba(191, 0, 255, 0.15));
+  border: 1px solid rgba(0, 245, 255, 0.3);
+  border-radius: 10px;
+  color: var(--neon-cyan);
+  font-family: 'Orbitron', monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.al-submit:hover {
+  background: linear-gradient(135deg, rgba(0, 245, 255, 0.25), rgba(191, 0, 255, 0.25));
+  box-shadow: 0 0 25px rgba(0, 245, 255, 0.2);
+}
+
+.al-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.al-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(0, 245, 255, 0.2);
+  border-top-color: var(--neon-cyan);
+  border-radius: 50%;
+  animation: alSpin 0.7s linear infinite;
+}
+
+@keyframes alSpin {
+  to { transform: rotate(360deg); }
+}
+
+.al-home-btn {
+  position: fixed;
+  top: 1.25rem;
+  left: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.45rem 1.1rem;
+  background: rgba(0, 245, 255, 0.07);
+  border: 1px solid rgba(0, 245, 255, 0.2);
+  border-radius: 8px;
+  color: var(--neon-cyan);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+  text-decoration: none;
+  z-index: 10;
+  transition: all 0.25s;
+}
+
+.al-home-btn:hover {
+  background: rgba(0, 245, 255, 0.14);
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 14px rgba(0, 245, 255, 0.15);
+}
+
+.al-back {
+  display: block;
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--text-secondary);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.78rem;
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: color 0.2s;
+}
+
+.al-back:hover { color: var(--neon-cyan); }

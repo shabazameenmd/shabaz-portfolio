@@ -150,6 +150,163 @@
   color: var(--proj-color, var(--neon-cyan));
 }
 
+/* ─── AI Priority Banner ─── */
+.ai-priority-banner {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.1rem 1.5rem;
+  background: rgba(255, 0, 110, 0.05);
+  border: 1px solid rgba(255, 0, 110, 0.2);
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-priority-banner::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--neon-pink), var(--neon-purple));
+}
+
+.aipb-icon {
+  font-size: 1.5rem;
+  color: var(--neon-pink);
+  flex-shrink: 0;
+  animation: aipbPulse 2s ease-in-out infinite;
+}
+
+@keyframes aipbPulse {
+  0%, 100% { filter: drop-shadow(0 0 4px var(--neon-pink)); }
+  50% { filter: drop-shadow(0 0 12px var(--neon-pink)); }
+}
+
+.aipb-title {
+  display: block;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--neon-pink);
+  margin-bottom: 4px;
+}
+
+.aipb-sub {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ─── Filters ─── */
+.projects-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 2.5rem;
+}
+
+.proj-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.4rem 1rem;
+  background: rgba(0, 245, 255, 0.04);
+  border: 1px solid rgba(0, 245, 255, 0.1);
+  border-radius: 20px;
+  color: var(--text-secondary);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.proj-filter-btn:hover {
+  border-color: rgba(0, 245, 255, 0.3);
+  color: var(--neon-cyan);
+}
+
+.proj-filter-btn.active {
+  background: rgba(0, 245, 255, 0.1);
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+}
+
+.proj-filter-btn.ai-filter {
+  border-color: rgba(255, 0, 110, 0.2);
+  color: var(--text-secondary);
+}
+
+.proj-filter-btn.ai-filter:hover,
+.proj-filter-btn.ai-filter.active {
+  background: rgba(255, 0, 110, 0.08);
+  border-color: var(--neon-pink);
+  color: var(--neon-pink);
+}
+
+/* ─── AI Agent card glow ─── */
+.project-card-ai {
+  box-shadow: 0 0 0 1px rgba(255, 0, 110, 0.06);
+}
+
+.project-card-ai:hover {
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 20px rgba(255, 0, 110, 0.08);
+}
+
+.project-ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0.22rem 0.7rem;
+  background: rgba(255, 0, 110, 0.08);
+  border: 1px solid rgba(255, 0, 110, 0.25);
+  border-radius: 20px;
+  color: var(--neon-pink);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+/* ─── View Details Button ─── */
+.project-view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 1.25rem;
+  padding: 0.5rem 1.1rem;
+  background: rgba(0, 245, 255, 0.05);
+  border: 1px solid rgba(0, 245, 255, 0.15);
+  border-radius: 8px;
+  color: var(--proj-color, var(--neon-cyan));
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+
+.project-view-btn:hover {
+  background: rgba(0, 245, 255, 0.1);
+  border-color: var(--proj-color, var(--neon-cyan));
+  transform: translateX(4px);
+}
+
+.projects-empty {
+  text-align: center;
+  color: var(--text-secondary);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.9rem;
+  padding: 3rem;
+}
+
 @media (max-width: 500px) {
   .projects-grid { grid-template-columns: 1fr; }
+  .projects-filters { gap: 6px; }
 }
