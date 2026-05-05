@@ -1,20 +1,53 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiMail, FiPhone, FiMapPin, FiSend } from 'react-icons/fi';
+import { FiMail, FiPhone, FiMapPin, FiSend, FiCopy, FiCheck } from 'react-icons/fi';
+import emailjs from '@emailjs/browser';
 import './Contact.css';
+
+// ── Paste your EmailJS credentials here ──────────────────────────────────────
+const EMAILJS_SERVICE_ID  = 'service_iwfod91';
+const EMAILJS_TEMPLATE_ID = 'template_f3sjuy8';
+const EMAILJS_PUBLIC_KEY  = 'Myu27GpEC6T_gnqWp';
+// ─────────────────────────────────────────────────────────────────────────────
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState('idle'); // idle | sending | sent | error
+  const [copiedIndex, setCopiedIndex] = useState(null);
+
+  const handleCopy = (e, value, index) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(value);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
+  };
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const mailto = `mailto:shabazameenmd@gmail.com?subject=${encodeURIComponent(form.subject || 'Portfolio Contact')}&body=${encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`)}`;
-    window.location.href = mailto;
-    setSent(true);
-    setTimeout(() => setSent(false), 4000);
+    setStatus('sending');
+    emailjs.send(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      {
+        name:    form.name,
+        email:   form.email,
+        title:   form.subject || 'Portfolio Contact',
+        message: form.message,
+      },
+      EMAILJS_PUBLIC_KEY
+    )
+    .then(() => {
+      setStatus('sent');
+      setForm({ name: '', email: '', subject: '', message: '' });
+      setTimeout(() => setStatus('idle'), 4000);
+    })
+    .catch(() => {
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 4000);
+    });
   };
 
   return (
@@ -46,8 +79,8 @@ export default function Contact() {
             </p>
 
             {[
-              { icon: <FiMail />, label: 'Personal Email', value: 'shabazameenmd@gmail.com', href: 'mailto:shabazameenmd@gmail.com' },
-              { icon: <FiMail />, label: 'Official Email', value: 'mohammed.shabazamin@hcltech.com', href: 'mailto:mohammed.shabazamin@hcltech.com' },
+              { icon: <FiMail />, label: 'Personal Email', value: 'shabazameenmd@gmail.com', href: 'mailto:shabazameenmd@gmail.com', copyable: true },
+              { icon: <FiMail />, label: 'Official Email', value: 'mohammed.shabazamin@hcltech.com', href: 'mailto:mohammed.shabazamin@hcltech.com', copyable: true },
               { icon: <FiPhone />, label: 'Phone', value: '+91 7798861341', href: 'tel:+917798861341' },
               { icon: <FiMapPin />, label: 'Location', value: 'IAS Colony, Hyderabad', href: null },
             ].map((item, i) => (
@@ -62,10 +95,19 @@ export default function Contact() {
                 whileHover={{ x: 6 }}
               >
                 <span className="contact-card-icon">{item.icon}</span>
-                <div>
+                <div className="contact-card-text">
                   <span className="contact-card-label">{item.label}</span>
                   <span className="contact-card-value">{item.value}</span>
                 </div>
+                {item.copyable && (
+                  <button
+                    className={`contact-copy-btn ${copiedIndex === i ? 'copied' : ''}`}
+                    onClick={(e) => handleCopy(e, item.value, i)}
+                    title="Copy email"
+                  >
+                    {copiedIndex === i ? <FiCheck /> : <FiCopy />}
+                  </button>
+                )}
               </motion.a>
             ))}
           </motion.div>
@@ -130,12 +172,11 @@ export default function Contact() {
                 />
               </div>
 
-              <button type="submit" className={`submit-btn ${sent ? 'sent' : ''}`}>
-                {sent ? (
-                  <><span>✓</span> Message Sent!</>
-                ) : (
-                  <><FiSend /> Send Message</>
-                )}
+              <button type="submit" className={`submit-btn ${status}`} disabled={status === 'sending'}>
+                {status === 'sending' && <><span className="spinner" /> Sending...</>}
+                {status === 'sent'    && <><FiCheck /> Message Sent!</>}
+                {status === 'error'   && <>✕ Failed — try again</>}
+                {status === 'idle'    && <><FiSend /> Send Message</>}
               </button>
             </form>
           </motion.div>

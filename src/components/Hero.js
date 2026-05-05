@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiDownload, FiMail, FiGithub, FiLinkedin } from 'react-icons/fi';
+import { FiDownload, FiMail } from 'react-icons/fi';
+import { downloadResume, getResumeMeta } from '../utils/resumeStorage';
 import './Hero.css';
 
 const TypewriterText = ({ texts }) => {
@@ -22,6 +23,22 @@ const TypewriterText = ({ texts }) => {
 };
 
 export default function Hero() {
+  const [hasResume, setHasResume] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+
+  useEffect(() => {
+    getResumeMeta().then(meta => setHasResume(!!meta)).catch(() => {});
+    const onUpdate = () => getResumeMeta().then(meta => setHasResume(!!meta)).catch(() => {});
+    window.addEventListener('portfolio_resume_updated', onUpdate);
+    return () => window.removeEventListener('portfolio_resume_updated', onUpdate);
+  }, []);
+
+  const handleDownload = async () => {
+    setDownloading(true);
+    await downloadResume();
+    setDownloading(false);
+  };
+
   return (
     <section id="home" className="hero">
       <div className="hero-particles">
@@ -51,8 +68,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15 }}
           >
-            Mohammed<br />
-            <span className="name-highlight">Shabaz Amin</span>
+            MD <span className="name-highlight">SHABAZ AMIN</span>
           </motion.h1>
 
           <motion.div
@@ -123,27 +139,23 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.65 }}
           >
-            <a href="mailto:shabazameenmd@gmail.com" className="btn-primary">
+            <button className="btn-primary" onClick={() => {
+              const el = document.getElementById('contact');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}>
               <FiMail /> Contact Me
-            </a>
+            </button>
             <button className="btn-secondary" onClick={() => {
               const el = document.getElementById('projects');
               if (el) el.scrollIntoView({ behavior: 'smooth' });
             }}>
               View Projects
             </button>
-          </motion.div>
-
-          <motion.div
-            className="hero-socials"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-          >
-            <a href="mailto:shabazameenmd@gmail.com" className="social-icon"><FiMail /></a>
-            <a href="mailto:mohammed.shabazamin@hcltech.com" className="social-icon"><FiDownload /></a>
-            <a href="#" className="social-icon"><FiGithub /></a>
-            <a href="#" className="social-icon"><FiLinkedin /></a>
+            {hasResume && (
+              <button className="btn-resume" onClick={handleDownload} disabled={downloading}>
+                <FiDownload /> {downloading ? 'Downloading...' : 'Download Resume'}
+              </button>
+            )}
           </motion.div>
         </div>
 
@@ -171,7 +183,7 @@ export default function Hero() {
               <span>Claude AI</span>
             </div>
             <div className="avatar-badge badge-4">
-              <span>AWS Cloud</span>
+              <span>Microservices</span>
             </div>
           </div>
         </motion.div>

@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Job Search Engine — Technical Workflow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800&family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cyan: #00f5ff;
+      --green: #00ff88;
+      --purple: #bf00ff;
+      --pink: #ff006e;
+      --orange: #ff6b35;
+      --indigo: #818cf8;
+      --bg: #050d1a;
+      --surface: rgba(10, 20, 40, 0.85);
+      --border: rgba(0, 245, 255, 0.15);
+      --text: #e2e8f0;
+      --muted: #64748b;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 5%; position: relative; z-index: 1; }
+
+    header {
+      padding: 3rem 0 2rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 3rem;
+    }
+
+    .header-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--cyan);
+      letter-spacing: 4px;
+      opacity: 0.7;
+      text-transform: uppercase;
+    }
+
+    .header-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.6rem, 4vw, 2.8rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--cyan), var(--indigo));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0.5rem 0;
+    }
+
+    .header-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .eye-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      display: block;
+      filter: drop-shadow(0 0 16px var(--cyan));
+    }
+
+    section { margin-bottom: 3.5rem; }
+
+    .section-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--cyan);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: 0.6;
+      margin-bottom: 0.4rem;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--cyan);
+      letter-spacing: 1.5px;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .card-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 0.75rem;
+    }
+
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 1.25rem 0;
+    }
+
+    .flow-step {
+      background: rgba(0, 245, 255, 0.06);
+      border: 1px solid rgba(0, 245, 255, 0.2);
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--cyan);
+      white-space: nowrap;
+    }
+
+    .flow-step.green {
+      background: rgba(0, 255, 136, 0.06);
+      border-color: rgba(0, 255, 136, 0.2);
+      color: var(--green);
+    }
+
+    .flow-step.purple {
+      background: rgba(191, 0, 255, 0.08);
+      border-color: rgba(191, 0, 255, 0.25);
+      color: #d580ff;
+    }
+
+    .flow-step.orange {
+      background: rgba(255, 107, 53, 0.08);
+      border-color: rgba(255, 107, 53, 0.25);
+      color: #ff9166;
+    }
+
+    .flow-step.indigo {
+      background: rgba(129, 140, 248, 0.08);
+      border-color: rgba(129, 140, 248, 0.25);
+      color: var(--indigo);
+    }
+
+    .flow-arrow {
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .code-block {
+      background: #020810;
+      border: 1px solid rgba(0, 245, 255, 0.12);
+      border-radius: 10px;
+      padding: 1.2rem 1.5rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.78rem;
+      line-height: 1.9;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+
+    .code-block .kw  { color: #c792ea; }
+    .code-block .fn  { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .cmt { color: #546e7a; font-style: italic; }
+    .code-block .obj { color: var(--cyan); }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .four-col {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--cyan);
+    }
+
+    .stat-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 1px;
+      margin-top: 0.3rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.7rem;
+      border-radius: 5px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.5px;
+      margin: 2px;
+    }
+
+    .badge-py     { background: rgba(0,245,255,0.06);  border: 1px solid rgba(0,245,255,0.2);   color: var(--cyan); }
+    .badge-react  { background: rgba(129,140,248,0.08); border: 1px solid rgba(129,140,248,0.25); color: var(--indigo); }
+    .badge-groq   { background: rgba(191,0,255,0.08);  border: 1px solid rgba(191,0,255,0.25);  color: #d580ff; }
+    .badge-db     { background: rgba(0,255,136,0.06);  border: 1px solid rgba(0,255,136,0.2);   color: var(--green); }
+    .badge-api    { background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.25); color: #ff9166; }
+
+    .feat-list { list-style: none; }
+    .feat-list li {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.95rem;
+    }
+    .feat-list li:last-child { border-bottom: none; }
+    .feat-bullet { color: var(--cyan); flex-shrink: 0; margin-top: 2px; }
+
+    .challenge-card {
+      background: var(--surface);
+      border-left: 3px solid var(--purple);
+      border-radius: 0 10px 10px 0;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .challenge-title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      color: #d580ff;
+      margin-bottom: 0.5rem;
+    }
+
+    .challenge-body { font-size: 0.92rem; color: var(--text); }
+
+    .nav-bar {
+      padding: 1.25rem 0;
+      border-bottom: 1px solid rgba(0,245,255,0.08);
+      margin-bottom: 0;
+    }
+
+    .back-link {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--cyan);
+      text-decoration: none;
+      letter-spacing: 1px;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .back-link:hover { opacity: 1; }
+
+    footer {
+      text-align: center;
+      padding: 2.5rem 0;
+      border-top: 1px solid var(--border);
+      margin-top: 3rem;
+      color: var(--muted);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 640px) {
+      .two-col, .three-col, .four-col { grid-template-columns: 1fr; }
+      .flow { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 820px) {
+      .four-col { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <nav class="nav-bar">
+      <a href="javascript:history.back()" class="back-link">&#8592; BACK TO PROJECT</a>
+    </nav>
+
+    <!-- HEADER -->
+    <header>
+      <span class="eye-icon">&#128269;</span>
+      <p class="header-tag">Technical Deep Dive</p>
+      <h1 class="header-title">Job Search Engine — How It Works</h1>
+      <p class="header-sub">A complete walkthrough of the dual-pipeline architecture, AI scoring engine, email drafting system, and React review UI.</p>
+    </header>
+
+    <!-- QUICK STATS -->
+    <section>
+      <div class="four-col">
+        <div class="stat-card">
+          <div class="stat-value">2</div>
+          <div class="stat-label">JOB PIPELINES</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">100+</div>
+          <div class="stat-label">JOBS / RUN</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">1–10</div>
+          <div class="stat-label">AI SCORE RANGE</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">$0</div>
+          <div class="stat-label">API COST (JOB DATA)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OVERVIEW -->
+    <section>
+      <p class="section-label">// 01</p>
+      <h2 class="section-title">OVERVIEW</h2>
+      <div class="card">
+        <p style="font-size:1rem; color:#cbd5e1;">
+          The Job Search Engine is an <strong style="color:var(--cyan)">autonomous daily job-hunting assistant</strong> built with Python + FastAPI. It scrapes remote jobs from multiple free sources, scores each posting against your resume using <strong style="color:#d580ff)">Groq's LLaMA 70B</strong>, drafts personalized outreach emails for high-scoring matches, and surfaces everything in a <strong style="color:var(--indigo)">React review UI</strong> where you read AI reasoning, edit drafts, and approve or skip — nothing sends without your click.
+        </p>
+        <div class="flow" style="margin-top:1.25rem;">
+          <span class="flow-step green">Job Sources</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step green">SQLite Storage</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step purple">Groq AI Scorer</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step purple">Email Drafter</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step">FastAPI Backend</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step indigo">React UI Review</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- DUAL PIPELINE ARCHITECTURE -->
+    <section>
+      <p class="section-label">// 02</p>
+      <h2 class="section-title">DUAL PIPELINE ARCHITECTURE</h2>
+      <p style="color:var(--muted); margin-bottom:1.25rem;">
+        Two completely isolated pipelines run in parallel — each with its own state, lock, and endpoints. Neither can interfere with the other.
+      </p>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title" style="color:var(--cyan)">&#128202; Main Pipeline</div>
+          <p style="font-size:0.92rem; color:#94a3b8; margin-bottom:0.75rem;">
+            Pulls from <code style="color:var(--cyan)">Remotive API</code> (JSON) and <code style="color:var(--cyan)">We Work Remotely</code> (RSS). Targets software engineering, backend, and full-stack roles. Results land in the <code style="color:var(--green)">jobs</code> table with a status flow: <code>new → scored → pending → approved → sent | skipped</code>.
+          </p>
+          <div class="flow" style="margin:0;">
+            <span class="flow-step" style="font-size:0.68rem;">Remotive API</span>
+            <span class="flow-arrow">+</span>
+            <span class="flow-step" style="font-size:0.68rem;">WWR RSS</span>
+            <span class="flow-arrow">&#8594;</span>
+            <span class="flow-step indigo" style="font-size:0.68rem;">jobs table</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="color:var(--orange)">&#127760; RemoteOK Pipeline</div>
+          <p style="font-size:0.92rem; color:#94a3b8; margin-bottom:0.75rem;">
+            Uses the <code style="color:var(--orange)">RemoteOK JSON API</code> — a free, no-auth alternative after Upwork permanently shut down public RSS feeds. Converts search terms to tag strings via a lookup map. Results land in the <code style="color:var(--green)">upwork_jobs</code> table.
+          </p>
+          <div class="flow" style="margin:0;">
+            <span class="flow-step orange" style="font-size:0.68rem;">RemoteOK API</span>
+            <span class="flow-arrow">&#8594;</span>
+            <span class="flow-step indigo" style="font-size:0.68rem;">upwork_jobs table</span>
+          </div>
+        </div>
+      </div>
+      <div class="code-block">
+        <span class="cmt"># Both pipelines share the same Groq scorer but have isolated DB tables + API state</span><br/>
+        <span class="cmt"># api/main.py</span><br/>
+        _pipeline_lock  = threading.<span class="fn">Lock</span>()&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmt"># main pipeline</span><br/>
+        _upwork_lock    = threading.<span class="fn">Lock</span>()&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmt"># RemoteOK pipeline</span><br/>
+        <br/>
+        _pipeline_state = {<span class="str">"running"</span>: <span class="kw">False</span>, <span class="str">"progress"</span>: <span class="kw">None</span>, <span class="str">"last_result"</span>: <span class="kw">None</span>}<br/>
+        _upwork_state&nbsp;&nbsp; = {<span class="str">"running"</span>: <span class="kw">False</span>, <span class="str">"progress"</span>: <span class="kw">None</span>, <span class="str">"last_result"</span>: <span class="kw">None</span>}
+      </div>
+    </section>
+
+    <!-- JOB SOURCES -->
+    <section>
+      <p class="section-label">// 03</p>
+      <h2 class="section-title">JOB SOURCES &amp; DEDUPLICATION</h2>
+      <div class="card">
+        <div class="card-title" style="color:var(--green)">How Jobs Are Fetched</div>
+        <p style="font-size:0.92rem; color:#94a3b8; margin-bottom:1rem;">
+          Each source is queried with a list of configurable search terms stored in SQLite. The pipeline can be re-run daily — <code style="color:var(--cyan)">INSERT OR IGNORE</code> on the <code>job_id</code> unique constraint makes every run idempotent. Only new jobs that haven't been seen before enter the scoring queue. The RemoteOK scraper converts human-readable terms like <em>"java backend developer"</em> into API tag strings like <em>"java,backend"</em> via a lookup map.
+        </p>
+        <div class="flow">
+          <span class="flow-step green">Search Terms (DB)</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step green">HTTP Fetch</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step">Normalize Fields</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step cyan">INSERT OR IGNORE</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step indigo">Score Queue</span>
+        </div>
+      </div>
+      <div class="code-block">
+        <span class="cmt"># src/upwork_scraper.py — tag lookup for RemoteOK</span><br/>
+        _TAG_MAP = {<br/>
+        &nbsp;&nbsp;<span class="str">"java backend developer"</span>: <span class="str">"java,backend"</span>,<br/>
+        &nbsp;&nbsp;<span class="str">"spring boot developer"</span>:&nbsp; <span class="str">"spring"</span>,<br/>
+        &nbsp;&nbsp;<span class="str">"python developer"</span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="str">"python"</span>,<br/>
+        &nbsp;&nbsp;<span class="str">"full stack developer"</span>:&nbsp;&nbsp; <span class="str">"fullstack"</span>,<br/>
+        &nbsp;&nbsp;<span class="cmt">...  # fallback: extract first significant word</span><br/>
+        }<br/>
+        <br/>
+        <span class="cmt"># SQLite dedup — storage.py</span><br/>
+        cursor.<span class="fn">executemany</span>(<br/>
+        &nbsp;&nbsp;<span class="str">"INSERT OR IGNORE INTO jobs (job_id, title, ...) VALUES (?, ?, ...)"</span>,<br/>
+        &nbsp;&nbsp;rows<br/>
+        )
+      </div>
+    </section>
+
+    <!-- AI SCORING ENGINE -->
+    <section>
+      <p class="section-label">// 04</p>
+      <h2 class="section-title">AI SCORING ENGINE (GROQ)</h2>
+      <p style="color:var(--muted); margin-bottom:1.25rem;">
+        Every new job is scored 1–10 by LLaMA 3.3 70B against your resume. The model returns structured JSON with a score, plain-English reasoning, key matches, and gaps.
+      </p>
+      <div class="card">
+        <div class="card-title" style="color:#d580ff">Scoring Prompt → Structured JSON</div>
+        <p style="font-size:0.92rem; color:#94a3b8; margin-bottom:1rem;">
+          The prompt injects the full resume text and job description into a single call. Groq's <code style="color:var(--cyan)">format='json'</code> flag forces structured output. Even so, the response is stripped of any markdown code fences before parsing — a real-world reliability fix since models occasionally wrap JSON in triple-backtick blocks.
+        </p>
+        <div class="two-col">
+          <div style="padding:1rem; background:rgba(0,0,0,0.2); border-radius:8px; border:1px solid rgba(0,245,255,0.1);">
+            <div style="font-family:'Share Tech Mono',monospace; font-size:0.72rem; color:var(--cyan); margin-bottom:0.5rem;">SCORING CALL</div>
+            <p style="font-size:0.88rem; color:#94a3b8;">model: llama-3.3-70b-versatile<br/>temperature: 0.3 (deterministic)<br/>format: json<br/>num_ctx: 4096 (fits resume + JD)</p>
+          </div>
+          <div style="padding:1rem; background:rgba(0,0,0,0.2); border-radius:8px; border:1px solid rgba(191,0,255,0.15);">
+            <div style="font-family:'Share Tech Mono',monospace; font-size:0.72rem; color:#d580ff; margin-bottom:0.5rem;">JSON RESPONSE</div>
+            <p style="font-size:0.88rem; color:#94a3b8;">{ score: 1–10,<br/>&nbsp;&nbsp;reasoning: "...",<br/>&nbsp;&nbsp;key_matches: [...],<br/>&nbsp;&nbsp;key_gaps: [...] }</p>
+          </div>
+        </div>
+      </div>
+      <div class="code-block">
+        <span class="cmt"># src/scorer.py</span><br/>
+        response = client.chat.completions.<span class="fn">create</span>(<br/>
+        &nbsp;&nbsp;model=<span class="str">"llama-3.3-70b-versatile"</span>,<br/>
+        &nbsp;&nbsp;messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: prompt}],<br/>
+        &nbsp;&nbsp;response_format={<span class="str">"type"</span>: <span class="str">"json_object"</span>},<br/>
+        &nbsp;&nbsp;temperature=<span class="num">0.3</span>,<br/>
+        &nbsp;&nbsp;max_tokens=<span class="num">800</span>,<br/>
+        )<br/>
+        raw = response.choices[<span class="num">0</span>].message.content<br/>
+        <span class="cmt"># Strip markdown fences that models occasionally add</span><br/>
+        raw = re.<span class="fn">sub</span>(<span class="str">r'```json?\s*|\s*```'</span>, <span class="str">''</span>, raw).<span class="fn">strip</span>()<br/>
+        result = json.<span class="fn">loads</span>(raw)
+      </div>
+    </section>
+
+    <!-- EMAIL DRAFTING -->
+    <section>
+      <p class="section-label">// 05</p>
+      <h2 class="section-title">EMAIL DRAFTING SYSTEM</h2>
+      <div class="card">
+        <div class="card-title" style="color:var(--green)">Draft → Review → Approve → Send</div>
+        <p style="font-size:0.92rem; color:#94a3b8; margin-bottom:1rem;">
+          Jobs scoring ≥ 7 (configurable threshold) automatically get a personalized email draft. The drafting call uses <code style="color:var(--cyan)">temperature=0.6</code> for more natural, varied prose. The draft is stored in SQLite with status <code>pending</code> — it sits there until you review it in the UI and click Approve. Nothing is ever sent automatically.
+        </p>
+        <div class="flow">
+          <span class="flow-step indigo">score ≥ threshold</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step purple">Groq drafts email</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step indigo">status = pending</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step cyan">UI review &amp; edit</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step green">Approve → send</span>
+        </div>
+      </div>
+      <div class="code-block">
+        <span class="cmt"># main.py — pipeline loop</span><br/>
+        <span class="kw">for</span> job <span class="kw">in</span> <span class="fn">get_unscored_jobs</span>():<br/>
+        &nbsp;&nbsp;score, reasoning = <span class="fn">score_job</span>(job)<br/>
+        &nbsp;&nbsp;<span class="fn">update_job_score</span>(job[<span class="str">"job_id"</span>], score, reasoning)<br/>
+        &nbsp;&nbsp;<span class="kw">if</span> score &gt;= SCORE_THRESHOLD:<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;subject, body = <span class="fn">draft_email</span>(job)<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">update_job_draft</span>(job[<span class="str">"job_id"</span>], subject, body)<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">update_job_status</span>(job[<span class="str">"job_id"</span>], <span class="str">"pending"</span>)<br/>
+        &nbsp;&nbsp;<span class="kw">else</span>:<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">update_job_status</span>(job[<span class="str">"job_id"</span>], <span class="str">"skipped"</span>)
+      </div>
+    </section>
+
+    <!-- WEB UI -->
+    <section>
+      <p class="section-label">// 06</p>
+      <h2 class="section-title">WEB REVIEW UI (REACT + FASTAPI)</h2>
+      <p style="color:var(--muted); margin-bottom:1.25rem;">
+        A left-icon sidebar navigation connects four views. FastAPI serves the built React app as static files in production — no separate web server needed.
+      </p>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title" style="color:var(--cyan)">&#128196; All Jobs View</div>
+          <p style="font-size:0.92rem; color:#94a3b8;">
+            Filterable, sortable table of every fetched job. Color-coded score badges (green ≥8, amber 6–7, red &lt;6). Click any row to open the detail panel with AI reasoning, key matches, and gaps. Star to save; trash to delete.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title" style="color:#d580ff">&#9989; Email Approval Panel</div>
+          <p style="font-size:0.92rem; color:#94a3b8;">
+            Pending jobs show an editable subject + body textarea pre-filled with the Groq draft. <strong style="color:var(--green)">Approve &amp; Send</strong> calls <code>PATCH /api/jobs/{id}/approve</code> which sends via Gmail SMTP and updates status to <code>sent</code>.
+          </p>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title" style="color:var(--orange)">&#127760; RemoteOK Page</div>
+          <p style="font-size:0.92rem; color:#94a3b8;">
+            Completely isolated page for the second pipeline. Its own run button, its own job table, its own saved list. Budget ranges from RemoteOK salary data are shown in amber. Apply link opens RemoteOK directly.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title" style="color:var(--green)">&#9881; Job Filter Page</div>
+          <p style="font-size:0.92rem; color:#94a3b8;">
+            Configure search terms for both pipelines via a full-page settings UI. Queries can be toggled on/off per-run. Add / delete terms without touching any config file.
+          </p>
+        </div>
+      </div>
+      <div class="code-block">
+        <span class="cmt"># api/main.py — FastAPI serves built React app in production</span><br/>
+        app.<span class="fn">mount</span>(<span class="str">"/assets"</span>, StaticFiles(directory=<span class="str">"frontend/dist/assets"</span>), name=<span class="str">"assets"</span>)<br/>
+        <br/>
+        @app.<span class="fn">get</span>(<span class="str">"/{full_path:path}"</span>)<br/>
+        <span class="kw">async def</span> <span class="fn">spa_fallback</span>(full_path: <span class="obj">str</span>):<br/>
+        &nbsp;&nbsp;<span class="kw">return</span> FileResponse(<span class="str">"frontend/dist/index.html"</span>)<br/>
+        <br/>
+        <span class="cmt"># Dev: Vite proxies /api → localhost:8000 to avoid CORS</span><br/>
+        <span class="cmt"># vite.config.js: server.proxy['/api'] = 'http://localhost:8000'</span>
+      </div>
+    </section>
+
+    <!-- SQLITE SCHEMA -->
+    <section>
+      <p class="section-label">// 07</p>
+      <h2 class="section-title">SQLITE SCHEMA &amp; STATE MACHINE</h2>
+      <div class="card">
+        <div class="card-title" style="color:var(--green)">WAL Mode + Row Factory</div>
+        <p style="font-size:0.92rem; color:#94a3b8; margin-bottom:1rem;">
+          Every connection sets <code style="color:var(--cyan)">PRAGMA journal_mode=WAL</code> — not just at init. This allows the FastAPI server to read results while the background pipeline is still writing, with no lock contention. <code style="color:var(--cyan)">row_factory = sqlite3.Row</code> makes rows behave like dicts throughout the codebase.
+        </p>
+        <div class="flow">
+          <span class="flow-step indigo">new</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step purple">scored</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step cyan">pending</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step green">approved → sent</span>
+          <span class="flow-arrow">/</span>
+          <span class="flow-step orange">skipped</span>
+          <span class="flow-arrow">/</span>
+          <span class="flow-step" style="color:#ff006e; border-color:rgba(255,0,110,0.3); background:rgba(255,0,110,0.06)">error</span>
+        </div>
+      </div>
+      <div class="code-block">
+        <span class="cmt">-- Core jobs table (upwork_jobs mirrors same structure)</span><br/>
+        <span class="kw">CREATE TABLE IF NOT EXISTS</span> <span class="obj">jobs</span> (<br/>
+        &nbsp;&nbsp;job_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="fn">TEXT UNIQUE NOT NULL</span>,<br/>
+        &nbsp;&nbsp;score&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="fn">INTEGER</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmt">-- 1-10 from Groq</span><br/>
+        &nbsp;&nbsp;score_reasoning <span class="fn">TEXT</span>,<br/>
+        &nbsp;&nbsp;email_subject&nbsp; <span class="fn">TEXT</span>,<br/>
+        &nbsp;&nbsp;email_body&nbsp;&nbsp;&nbsp;&nbsp; <span class="fn">TEXT</span>,<br/>
+        &nbsp;&nbsp;status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="fn">TEXT NOT NULL DEFAULT</span> <span class="str">'new'</span>,<br/>
+        &nbsp;&nbsp;sent_at&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="fn">TEXT</span><br/>
+        );<br/>
+        <span class="kw">CREATE INDEX IF NOT EXISTS</span> idx_jobs_score <span class="kw">ON</span> jobs(score <span class="kw">DESC</span>);
+      </div>
+    </section>
+
+    <!-- CHALLENGES -->
+    <section>
+      <p class="section-label">// 08</p>
+      <h2 class="section-title">KEY ENGINEERING CHALLENGES</h2>
+
+      <div class="challenge-card">
+        <div class="challenge-title">&#9889; Upwork RSS Permanently Dead</div>
+        <div class="challenge-body">The original plan used <code style="color:var(--cyan)">upwork.com/ab/feed/jobs/rss</code> — it returns 404. All alternative Upwork RSS URL patterns also return 404 or a CAPTCHA wall. Upwork permanently discontinued public RSS access. Fixed by switching the entire scraper to the RemoteOK JSON API, which is free, requires no authentication, and covers the same remote-tech job market.</div>
+      </div>
+
+      <div class="challenge-card">
+        <div class="challenge-title">&#9889; Groq JSON Fences Breaking Parse</div>
+        <div class="challenge-body">Even with <code style="color:var(--cyan)">response_format={"type":"json_object"}</code>, Groq's model occasionally wraps the output in triple-backtick code fences (<code>```json ... ```</code>). A naive <code>json.loads()</code> throws a parse error. Fixed by stripping the fence pattern with a regex before parsing, plus a fallback that extracts the JSON object with a broader regex on total failure.</div>
+      </div>
+
+      <div class="challenge-card">
+        <div class="challenge-title">&#9889; SQLite WAL Contention</div>
+        <div class="challenge-body">The FastAPI server and the background pipeline both access the same SQLite database. Without WAL mode, the pipeline's write transaction would lock the database and cause the API to return 500 errors during a run. Fixed by setting <code style="color:var(--cyan)">PRAGMA journal_mode=WAL</code> in every new connection (not just once at init), allowing concurrent reads while the pipeline writes.</div>
+      </div>
+
+      <div class="challenge-card">
+        <div class="challenge-title">&#9889; Pipeline State Race Condition</div>
+        <div class="challenge-body">Without locking, two simultaneous clicks on "Run Pipeline" would start two background threads writing to the same rows, causing duplicate scoring and double email drafts. Fixed by checking <code style="color:var(--cyan)">_state["running"]</code> inside a <code>threading.Lock()</code> acquire block before starting the thread — if already running, return a 409 Conflict response immediately.</div>
+      </div>
+
+      <div class="challenge-card">
+        <div class="challenge-title">&#9889; SQLite WAL Files Committed to Git</div>
+        <div class="challenge-body">After the first pipeline run, SQLite creates <code>jobs.db-shm</code> and <code>jobs.db-wal</code> alongside the main database file. These were accidentally staged. Fixed by adding <code style="color:var(--cyan)">data/*.db*</code> to <code>.gitignore</code> and running <code>git rm --cached</code> to untrack the already-staged files.</div>
+      </div>
+    </section>
+
+    <!-- TECH STACK -->
+    <section>
+      <p class="section-label">// 09</p>
+      <h2 class="section-title">FULL TECH STACK</h2>
+      <div class="card">
+        <div style="margin-bottom:1rem;">
+          <div style="font-family:'Share Tech Mono',monospace; font-size:0.68rem; color:var(--cyan); letter-spacing:2px; margin-bottom:0.5rem;">BACKEND / PIPELINE</div>
+          <span class="badge badge-py">Python 3.11</span>
+          <span class="badge badge-py">FastAPI</span>
+          <span class="badge badge-py">Uvicorn</span>
+          <span class="badge badge-py">Requests</span>
+          <span class="badge badge-py">smtplib (stdlib)</span>
+          <span class="badge badge-py">threading</span>
+        </div>
+        <div style="margin-bottom:1rem;">
+          <div style="font-family:'Share Tech Mono',monospace; font-size:0.68rem; color:var(--indigo); letter-spacing:2px; margin-bottom:0.5rem;">FRONTEND</div>
+          <span class="badge badge-react">React 19</span>
+          <span class="badge badge-react">Vite</span>
+          <span class="badge badge-react">JSX</span>
+          <span class="badge badge-react">CSS-in-JS (inline styles)</span>
+        </div>
+        <div style="margin-bottom:1rem;">
+          <div style="font-family:'Share Tech Mono',monospace; font-size:0.68rem; color:#d580ff; letter-spacing:2px; margin-bottom:0.5rem;">AI / LLM</div>
+          <span class="badge badge-groq">Groq SDK</span>
+          <span class="badge badge-groq">LLaMA 3.3 70B Versatile</span>
+          <span class="badge badge-groq">JSON Mode</span>
+        </div>
+        <div style="margin-bottom:1rem;">
+          <div style="font-family:'Share Tech Mono',monospace; font-size:0.68rem; color:var(--green); letter-spacing:2px; margin-bottom:0.5rem;">DATA</div>
+          <span class="badge badge-db">SQLite</span>
+          <span class="badge badge-db">WAL Mode</span>
+          <span class="badge badge-db">sqlite3 (stdlib)</span>
+        </div>
+        <div>
+          <div style="font-family:'Share Tech Mono',monospace; font-size:0.68rem; color:var(--orange); letter-spacing:2px; margin-bottom:0.5rem;">JOB DATA SOURCES</div>
+          <span class="badge badge-api">Remotive API</span>
+          <span class="badge badge-api">We Work Remotely RSS</span>
+          <span class="badge badge-api">RemoteOK JSON API</span>
+          <span class="badge badge-api">Gmail SMTP</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE SUMMARY -->
+    <section>
+      <p class="section-label">// 10</p>
+      <h2 class="section-title">ARCHITECTURE SUMMARY</h2>
+      <div class="card">
+        <ul class="feat-list">
+          <li><span class="feat-bullet">&#9654;</span> <strong style="color:var(--text)">Pipeline layer (Python):</strong> fetches jobs from free APIs, deduplicates via SQLite UNIQUE constraints, scores with Groq LLaMA, drafts outreach emails, and logs every run to a <code>run_log</code> table.</li>
+          <li><span class="feat-bullet">&#9654;</span> <strong style="color:var(--text)">Storage layer (SQLite + WAL):</strong> two isolated job tables, a queries table for search terms, and WAL mode ensuring zero lock contention between background pipeline and live API reads.</li>
+          <li><span class="feat-bullet">&#9654;</span> <strong style="color:var(--text)">API layer (FastAPI):</strong> REST endpoints for both pipelines, pipeline run/status endpoints using background threads with locks, and SPA static file serving in production.</li>
+          <li><span class="feat-bullet">&#9654;</span> <strong style="color:var(--text)">UI layer (React 19 + Vite):</strong> left-icon sidebar connecting four views — All Jobs, Saved, Job Filter, and RemoteOK — each with live polling of pipeline status every 3 seconds.</li>
+          <li><span class="feat-bullet">&#9654;</span> <strong style="color:var(--text)">Email layer (smtplib):</strong> Gmail App Password authentication over SMTP_SSL port 465. Nothing ever sends without the user clicking Approve in the UI — fully draft-and-review mode.</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <div class="container">
+      JOB SEARCH ENGINE &mdash; TECHNICAL WORKFLOW &nbsp;|&nbsp; Built by Mohammed Shabaz Amin &nbsp;|&nbsp; 2026
+    </div>
+  </footer>
+
+</body>
+</html>

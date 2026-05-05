@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiMapPin, FiPhone, FiMail, FiAward } from 'react-icons/fi';
+import { FiMapPin, FiPhone, FiMail, FiAward, FiCopy, FiCheck } from 'react-icons/fi';
 import './About.css';
 
 const infoItems = [
   { icon: <FiMapPin />, label: 'Location', value: 'IAS Colony, Hyderabad' },
   { icon: <FiPhone />, label: 'Phone', value: '+91 7798861341' },
-  { icon: <FiMail />, label: 'Personal Email', value: 'shabazameenmd@gmail.com' },
-  { icon: <FiMail />, label: 'Official Email', value: 'mohammed.shabazamin@hcltech.com' },
+  { icon: <FiMail />, label: 'Personal Email', value: 'shabazameenmd@gmail.com', copyable: true },
+  { icon: <FiMail />, label: 'Official Email', value: 'mohammed.shabazamin@hcltech.com', copyable: true },
   { icon: <FiAward />, label: 'HCLTech SAP', value: '52319627' },
 ];
 
 export default function About() {
+  const [copiedIndex, setCopiedIndex] = useState(null);
+
+  const handleCopy = (value, index) => {
+    navigator.clipboard.writeText(value);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
+  };
   return (
     <section id="about">
       <div className="container">
@@ -95,16 +102,26 @@ export default function About() {
                 transition={{ delay: i * 0.1 }}
               >
                 <span className="info-icon">{item.icon}</span>
-                <div>
+                <div className="info-text">
                   <span className="info-label">{item.label}</span>
                   <span className="info-value">{item.value}</span>
                 </div>
+                {item.copyable && (
+                  <button
+                    className={`info-copy-btn ${copiedIndex === i ? 'copied' : ''}`}
+                    onClick={() => handleCopy(item.value, i)}
+                    title="Copy email"
+                  >
+                    {copiedIndex === i ? <FiCheck /> : <FiCopy />}
+                  </button>
+                )}
               </motion.div>
             ))}
 
             <div className="availability-badge">
               <span className="pulse-dot" />
-              <span>Currently Employed @ HCLTech</span>
+              <span>Currently Employed @</span>
+              <span className="hcl-logo-badge">HCLTech</span>
             </div>
           </motion.div>
         </div>

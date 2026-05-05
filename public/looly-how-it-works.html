@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Looly — Technical Workflow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800&family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cyan: #00f5ff;
+      --green: #00ff88;
+      --purple: #bf00ff;
+      --pink: #ff006e;
+      --orange: #ff6b35;
+      --bg: #050d1a;
+      --surface: rgba(10, 20, 40, 0.85);
+      --border: rgba(0, 255, 136, 0.15);
+      --text: #e2e8f0;
+      --muted: #64748b;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 5%; position: relative; z-index: 1; }
+
+    /* ── HEADER ── */
+    header {
+      padding: 3rem 0 2rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 3rem;
+    }
+
+    .header-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--green);
+      letter-spacing: 4px;
+      opacity: 0.7;
+      text-transform: uppercase;
+    }
+
+    .header-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.6rem, 4vw, 2.8rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0.5rem 0;
+    }
+
+    .header-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .eye-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      display: block;
+      filter: drop-shadow(0 0 16px var(--green));
+    }
+
+    /* ── SECTION ── */
+    section { margin-bottom: 3.5rem; }
+
+    .section-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--green);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: 0.6;
+      margin-bottom: 0.4rem;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--cyan);
+      letter-spacing: 1.5px;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .card-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 0.75rem;
+    }
+
+    /* ── FLOW DIAGRAM ── */
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 1.25rem 0;
+    }
+
+    .flow-step {
+      background: rgba(0, 255, 136, 0.06);
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--green);
+      white-space: nowrap;
+    }
+
+    .flow-step.purple {
+      background: rgba(191, 0, 255, 0.08);
+      border-color: rgba(191, 0, 255, 0.25);
+      color: #d580ff;
+    }
+
+    .flow-step.cyan {
+      background: rgba(0, 245, 255, 0.06);
+      border-color: rgba(0, 245, 255, 0.2);
+      color: var(--cyan);
+    }
+
+    .flow-step.orange {
+      background: rgba(255, 107, 53, 0.08);
+      border-color: rgba(255, 107, 53, 0.25);
+      color: #ff9166;
+    }
+
+    .flow-arrow {
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    /* ── CODE BLOCK ── */
+    .code-block {
+      background: #020810;
+      border: 1px solid rgba(0, 255, 136, 0.12);
+      border-radius: 10px;
+      padding: 1.2rem 1.5rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.78rem;
+      line-height: 1.9;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+
+    .code-block .kw { color: #c792ea; }
+    .code-block .fn { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .cmt { color: #546e7a; font-style: italic; }
+    .code-block .obj { color: var(--green); }
+
+    /* ── GRID LAYOUTS ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    /* ── STAT CARDS ── */
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--green);
+    }
+
+    .stat-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 1px;
+      margin-top: 0.3rem;
+    }
+
+    /* ── BADGE / TAG ── */
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.7rem;
+      border-radius: 5px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.5px;
+      margin: 2px;
+    }
+
+    .badge-rust   { background: rgba(255,107,53,0.12); border: 1px solid rgba(255,107,53,0.3); color: #ff9166; }
+    .badge-react  { background: rgba(0,245,255,0.06); border: 1px solid rgba(0,245,255,0.2); color: var(--cyan); }
+    .badge-node   { background: rgba(0,255,136,0.06); border: 1px solid rgba(0,255,136,0.2); color: var(--green); }
+    .badge-groq   { background: rgba(191,0,255,0.08); border: 1px solid rgba(191,0,255,0.25); color: #d580ff; }
+    .badge-supabase { background: rgba(0,200,150,0.08); border: 1px solid rgba(0,200,150,0.25); color: #00c896; }
+
+    /* ── LIST ── */
+    .feat-list { list-style: none; }
+    .feat-list li {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.95rem;
+    }
+    .feat-list li:last-child { border-bottom: none; }
+    .feat-bullet { color: var(--green); flex-shrink: 0; margin-top: 2px; }
+
+    /* ── CHALLENGE CARD ── */
+    .challenge-card {
+      background: var(--surface);
+      border-left: 3px solid var(--purple);
+      border-radius: 0 10px 10px 0;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .challenge-title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      color: #d580ff;
+      margin-bottom: 0.5rem;
+    }
+
+    .challenge-body { font-size: 0.92rem; color: var(--text); }
+
+    /* ── NAV / BACK LINK ── */
+    .nav-bar {
+      padding: 1.25rem 0;
+      border-bottom: 1px solid rgba(0,255,136,0.08);
+      margin-bottom: 0;
+    }
+
+    .back-link {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--green);
+      text-decoration: none;
+      letter-spacing: 1px;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .back-link:hover { opacity: 1; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2.5rem 0;
+      border-top: 1px solid var(--border);
+      margin-top: 3rem;
+      color: var(--muted);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 1px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .two-col, .three-col { grid-template-columns: 1fr; }
+      .flow { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <nav class="nav-bar">
+      <a href="javascript:history.back()" class="back-link">&#8592; BACK TO PROJECT</a>
+    </nav>
+
+    <!-- HEADER -->
+    <header>
+      <span class="eye-icon">&#128065;&#65039;</span>
+      <p class="header-tag">Technical Deep Dive</p>
+      <h1 class="header-title">Looly — How It Works</h1>
+      <p class="header-sub">A complete walkthrough of the architecture, stealth engine, AI pipeline, and business model behind Looly.</p>
+    </header>
+
+    <!-- QUICK STATS -->
+    <section>
+      <div class="three-col">
+        <div class="stat-card">
+          <div class="stat-value">27+</div>
+          <div class="stat-label">TECHNOLOGIES</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">&lt; 2s</div>
+          <div class="stat-label">FIRST TOKEN LATENCY</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">100%</div>
+          <div class="stat-label">SCREEN-SHARE INVISIBLE</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OVERVIEW -->
+    <section>
+      <p class="section-label">// 01</p>
+      <h2 class="section-title">OVERVIEW</h2>
+      <div class="card">
+        <p style="font-size:1rem; color:#cbd5e1;">
+          Looly is a <strong style="color:var(--green)">stealth Windows desktop app</strong> that listens to job interviews in real time and streams instant AI-generated answers — completely invisible to Zoom, Teams, and Google Meet screen sharing. It combines a <strong style="color:var(--cyan)">Tauri v2 + Rust desktop shell</strong> with a <strong style="color:var(--purple)">Node.js/Express backend on Railway</strong> to deliver a seamless, invisible co-pilot experience.
+        </p>
+        <div class="flow" style="margin-top:1.25rem;">
+          <span class="flow-step">Microphone Input</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step">Web Speech API</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step cyan">Express Backend</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step purple">Groq LLaMA</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step">SSE Stream</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step cyan">Tauri WebView</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEALTH ENGINE -->
+    <section>
+      <p class="section-label">// 02</p>
+      <h2 class="section-title">STEALTH ENGINE</h2>
+      <p style="color:var(--muted); margin-bottom:1.25rem;">
+        The core differentiator: Looly is genuinely invisible to screen-sharing software at the Windows driver level.
+      </p>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title" style="color:var(--green)">&#128065; SetWindowDisplayAffinity</div>
+          <p style="font-size:0.92rem; color:#94a3b8;">
+            Looly calls the Win32 <code style="color:var(--cyan)">SetWindowDisplayAffinity</code> API with <code style="color:var(--green)">WDA_EXCLUDEFROMCAPTURE</code>. This instructs the Windows Display Driver Model (WDDM) to exclude the window from all screen capture operations — the window renders on the physical monitor but appears as a black rectangle in any capture stream, including Zoom, Teams, and OBS.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title" style="color:var(--green)">&#129695; WS_EX_TOOLWINDOW</div>
+          <p style="font-size:0.92rem; color:#94a3b8;">
+            The extended window style <code style="color:var(--cyan)">WS_EX_TOOLWINDOW</code> hides the app from the Windows taskbar and Alt+Tab switcher. This means the interviewer sees no suspicious window in the taskbar — Looly is effectively invisible at the OS UI level as well as the capture level.
+          </p>
+        </div>
+      </div>
+      <div class="code-block">
+        <span class="cmt">// Rust side (src-tauri/src/main.rs)</span><br/>
+        <span class="kw">fn</span> <span class="fn">set_stealth_mode</span>(window: &amp;Window) {<br/>
+        &nbsp;&nbsp;<span class="kw">let</span> hwnd = window.<span class="fn">hwnd</span>().unwrap();<br/>
+        &nbsp;&nbsp;<span class="cmt">// Hide from screen capture</span><br/>
+        &nbsp;&nbsp;<span class="fn">SetWindowDisplayAffinity</span>(hwnd, WDA_EXCLUDEFROMCAPTURE);<br/>
+        &nbsp;&nbsp;<span class="cmt">// Hide from taskbar &amp; Alt+Tab</span><br/>
+        &nbsp;&nbsp;<span class="kw">let</span> style = <span class="fn">GetWindowLong</span>(hwnd, GWL_EXSTYLE);<br/>
+        &nbsp;&nbsp;<span class="fn">SetWindowLong</span>(hwnd, GWL_EXSTYLE, style | WS_EX_TOOLWINDOW);<br/>
+        }
+      </div>
+    </section>
+
+    <!-- SPEECH RECOGNITION -->
+    <section>
+      <p class="section-label">// 03</p>
+      <h2 class="section-title">REAL-TIME SPEECH RECOGNITION</h2>
+      <div class="card">
+        <div class="card-title" style="color:var(--cyan)">Web Speech API + Silence Detection</div>
+        <p style="font-size:0.92rem; color:#94a3b8; margin-bottom:1rem;">
+          The speech listener uses the browser-native <code style="color:var(--cyan)">SpeechRecognition</code> API running inside the Tauri WebView. It captures interim results in real time, building up the transcript. A 4-second silence timer runs alongside — when no new words arrive for 4 seconds, the current transcript is automatically submitted to the AI pipeline.
+        </p>
+        <div class="flow">
+          <span class="flow-step">Mic Stream</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step cyan">SpeechRecognition API</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step">Interim Transcript</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step orange">4s Silence Timer</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step purple">Auto Submit</span>
+        </div>
+      </div>
+      <div class="code-block">
+        <span class="cmt">// Silence-detection logic (React/TypeScript)</span><br/>
+        recognition.onresult = (event) =&gt; {<br/>
+        &nbsp;&nbsp;<span class="kw">const</span> transcript = Array.from(event.results)<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;.map(r =&gt; r[<span class="num">0</span>].transcript).join(<span class="str">''</span>);<br/>
+        &nbsp;&nbsp;setLiveText(transcript);<br/>
+        &nbsp;&nbsp;<span class="fn">clearTimeout</span>(silenceTimer.current);<br/>
+        &nbsp;&nbsp;silenceTimer.current = <span class="fn">setTimeout</span>(() =&gt; {<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">submitQuestion</span>(transcript); <span class="cmt">// 4s of silence</span><br/>
+        &nbsp;&nbsp;}, <span class="num">4000</span>);<br/>
+        };
+      </div>
+    </section>
+
+    <!-- AI PIPELINE -->
+    <section>
+      <p class="section-label">// 04</p>
+      <h2 class="section-title">AI ANSWER PIPELINE (SSE STREAMING)</h2>
+      <p style="color:var(--muted); margin-bottom:1.25rem;">
+        Answers stream token-by-token using Server-Sent Events for zero-latency perceived response.
+      </p>
+      <div class="card">
+        <div class="card-title" style="color:var(--purple)">Free Tier vs Pro Tier</div>
+        <div class="two-col" style="margin-top:0.75rem;">
+          <div style="padding:1rem; background:rgba(0,0,0,0.2); border-radius:8px; border:1px solid rgba(0,255,136,0.1);">
+            <div style="font-family:'Share Tech Mono',monospace; font-size:0.72rem; color:var(--green); margin-bottom:0.5rem;">FREE (BYOK)</div>
+            <p style="font-size:0.88rem; color:#94a3b8;">User provides their own Groq API key. The key is stored in localStorage and sent with each request. 10-day trial period.</p>
+          </div>
+          <div style="padding:1rem; background:rgba(0,0,0,0.2); border-radius:8px; border:1px solid rgba(191,0,255,0.15);">
+            <div style="font-family:'Share Tech Mono',monospace; font-size:0.72rem; color:#d580ff; margin-bottom:0.5rem;">PRO (KEY POOL)</div>
+            <p style="font-size:0.88rem; color:#94a3b8;">Requests route through a backend key rotation pool. No API key needed. Keys cycle automatically to avoid rate limits.</p>
+          </div>
+        </div>
+      </div>
+      <div class="code-block">
+        <span class="cmt">// Backend SSE route (Node.js/Express)</span><br/>
+        app.<span class="fn">post</span>(<span class="str">'/api/ask'</span>, <span class="kw">async</span> (req, res) =&gt; {<br/>
+        &nbsp;&nbsp;res.<span class="fn">setHeader</span>(<span class="str">'Content-Type'</span>, <span class="str">'text/event-stream'</span>);<br/>
+        &nbsp;&nbsp;res.<span class="fn">setHeader</span>(<span class="str">'Cache-Control'</span>, <span class="str">'no-cache'</span>);<br/>
+        &nbsp;&nbsp;<br/>
+        &nbsp;&nbsp;<span class="kw">const</span> apiKey = req.body.isPro<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;? <span class="fn">getNextKeyFromPool</span>() <span class="cmt">// rotate through pool</span><br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;: req.body.userKey; <span class="cmt">// user's own key</span><br/>
+        &nbsp;&nbsp;<br/>
+        &nbsp;&nbsp;<span class="kw">const</span> stream = <span class="kw">await</span> groq.chat.completions.<span class="fn">create</span>({<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;model: <span class="str">'llama-3.3-70b-versatile'</span>,<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;messages: [{ role: <span class="str">'user'</span>, content: question }],<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;stream: <span class="kw">true</span><br/>
+        &nbsp;&nbsp;});<br/>
+        &nbsp;&nbsp;<br/>
+        &nbsp;&nbsp;<span class="kw">for await</span> (<span class="kw">const</span> chunk <span class="kw">of</span> stream) {<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">const</span> token = chunk.choices[<span class="num">0</span>]?.delta?.content;<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (token) res.<span class="fn">write</span>(<span class="str">`data: ${token}\n\n`</span>);<br/>
+        &nbsp;&nbsp;}<br/>
+        &nbsp;&nbsp;res.<span class="fn">write</span>(<span class="str">'data: [DONE]\n\n'</span>); res.<span class="fn">end</span>();<br/>
+        });
+      </div>
+    </section>
+
+    <!-- SCREENSHOT MODE -->
+    <section>
+      <p class="section-label">// 05</p>
+      <h2 class="section-title">SCREENSHOT ANALYSIS MODE</h2>
+      <div class="card">
+        <p style="font-size:0.92rem; color:#94a3b8; margin-bottom:1rem;">
+          When the user presses the screenshot hotkey, a native Rust Tauri command captures the full screen using the Windows GDI API, encodes it to PNG bytes, and passes it to the React frontend. The frontend draws the image onto a canvas element and compresses it to a base64 JPEG at 60% quality — drastically reducing payload size before sending to the backend.
+        </p>
+        <div class="flow">
+          <span class="flow-step orange">Hotkey Trigger</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step orange">Rust GDI Capture</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step cyan">Canvas Compression</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step cyan">Base64 JPEG</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step purple">LLaMA 4 Scout Vision</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step">SSE Answer</span>
+        </div>
+      </div>
+      <div class="code-block">
+        <span class="cmt">// Rust Tauri command</span><br/>
+        #[<span class="fn">tauri::command</span>]<br/>
+        <span class="kw">fn</span> <span class="fn">capture_screen</span>() -&gt; <span class="obj">Result</span>&lt;<span class="obj">Vec</span>&lt;<span class="num">u8</span>&gt;, <span class="obj">String</span>&gt; {<br/>
+        &nbsp;&nbsp;<span class="kw">let</span> screen = <span class="fn">Screen::all</span>().unwrap()[<span class="num">0</span>];<br/>
+        &nbsp;&nbsp;<span class="kw">let</span> image = screen.<span class="fn">capture</span>().unwrap();<br/>
+        &nbsp;&nbsp;image.<span class="fn">to_png</span>(<span class="obj">Compression::Fast</span>).unwrap()<br/>
+        }
+      </div>
+    </section>
+
+    <!-- PAYMENT & LICENSING -->
+    <section>
+      <p class="section-label">// 06</p>
+      <h2 class="section-title">PAYMENT &amp; LICENSING SYSTEM</h2>
+      <div class="card">
+        <div class="card-title" style="color:var(--cyan)">Full Payment Flow</div>
+        <div class="flow" style="margin-top:0.75rem;">
+          <span class="flow-step">User pays via Razorpay</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step cyan">Webhook verification</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step purple">Generate LOOLY-XXXX key</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step">Save to Supabase</span>
+          <span class="flow-arrow">&#8594;</span>
+          <span class="flow-step orange">Gmail SMTP email</span>
+        </div>
+      </div>
+      <div class="card" style="margin-top:1rem;">
+        <div class="card-title" style="color:var(--green)">License Activation in Desktop App</div>
+        <p style="font-size:0.92rem; color:#94a3b8; margin-bottom:1rem;">
+          The Tauri app validates the license key against Supabase using the <strong style="color:var(--cyan)">Tauri HTTP plugin</strong> (not WebView2 fetch — which was silently blocked in production builds by Tauri's capability system). The plugin requires explicit URL scopes to be declared in the capabilities manifest, a subtle but critical configuration that blocked all network calls until discovered.
+        </p>
+        <div class="code-block" style="margin:0;">
+          <span class="cmt">// tauri.conf.json — capability scope (critical fix)</span><br/>
+          {<br/>
+          &nbsp;&nbsp;<span class="str">"permissions"</span>: [<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"http:default"</span>,<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;{ <span class="str">"identifier"</span>: <span class="str">"http:allow-fetch"</span>,<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"allow"</span>: [{ <span class="str">"url"</span>: <span class="str">"https://your-backend.railway.app/**"</span> }] }<br/>
+          &nbsp;&nbsp;]<br/>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- CHALLENGES -->
+    <section>
+      <p class="section-label">// 07</p>
+      <h2 class="section-title">KEY ENGINEERING CHALLENGES</h2>
+
+      <div class="challenge-card">
+        <div class="challenge-title">&#9889; Tauri HTTP Plugin Scope Blocking</div>
+        <div class="challenge-body">All HTTP requests from the desktop app were silently failing in production builds. Root cause: Tauri v2 requires every URL the app may fetch to be explicitly listed in the capabilities manifest. Without this, requests fail with no error — they simply never fire. Fixed by declaring the Railway backend domain in the capability scope.</div>
+      </div>
+
+      <div class="challenge-card">
+        <div class="challenge-title">&#9889; Railway SMTP Port Blocking</div>
+        <div class="challenge-body">Email delivery via Gmail SMTP on port 465 (SSL) failed silently on Railway. Railway blocks outbound IPv6 connections used by port 465. Fixed by switching to port 587 (STARTTLS) with explicit <code style="color:var(--cyan)">tls: { rejectUnauthorized: false }</code> and <code style="color:var(--cyan)">requireTLS: true</code> in the nodemailer config.</div>
+      </div>
+
+      <div class="challenge-card">
+        <div class="challenge-title">&#9889; Payment Email Blocking the UI</div>
+        <div class="challenge-body">The payment success handler was awaiting the email send operation, causing the UI to hang for 2-3 seconds before showing confirmation. Fixed by making email send fire-and-forget — the confirmation response returns immediately; email delivery happens asynchronously in the background.</div>
+      </div>
+
+      <div class="challenge-card">
+        <div class="challenge-title">&#9889; Groq Rate Limits for Pro Users</div>
+        <div class="challenge-body">A single Groq API key has per-minute token limits that Pro users could hit during an active interview. Fixed by building a key rotation pool on the backend — each request picks the next available key in round-robin order. Exhausted keys are automatically retired until their rate-limit window resets.</div>
+      </div>
+    </section>
+
+    <!-- TECH STACK -->
+    <section>
+      <p class="section-label">// 08</p>
+      <h2 class="section-title">FULL TECH STACK</h2>
+      <div class="card">
+        <div style="margin-bottom:1rem;">
+          <div style="font-family:'Share Tech Mono',monospace; font-size:0.68rem; color:var(--orange); letter-spacing:2px; margin-bottom:0.5rem;">DESKTOP SHELL</div>
+          <span class="badge badge-rust">Rust</span>
+          <span class="badge badge-rust">Tauri v2</span>
+          <span class="badge badge-rust">Win32 API</span>
+          <span class="badge badge-rust">NSIS Installer</span>
+          <span class="badge badge-rust">GitHub Actions</span>
+        </div>
+        <div style="margin-bottom:1rem;">
+          <div style="font-family:'Share Tech Mono',monospace; font-size:0.68rem; color:var(--cyan); letter-spacing:2px; margin-bottom:0.5rem;">FRONTEND</div>
+          <span class="badge badge-react">React</span>
+          <span class="badge badge-react">TypeScript</span>
+          <span class="badge badge-react">Vite</span>
+          <span class="badge badge-react">Web Speech API</span>
+          <span class="badge badge-react">HTML/CSS</span>
+          <span class="badge badge-react">Chart.js</span>
+        </div>
+        <div style="margin-bottom:1rem;">
+          <div style="font-family:'Share Tech Mono',monospace; font-size:0.68rem; color:var(--green); letter-spacing:2px; margin-bottom:0.5rem;">BACKEND</div>
+          <span class="badge badge-node">Node.js</span>
+          <span class="badge badge-node">Express</span>
+          <span class="badge badge-node">SSE</span>
+          <span class="badge badge-node">nodemailer</span>
+          <span class="badge badge-node">Gmail SMTP</span>
+          <span class="badge badge-node">Railway</span>
+          <span class="badge badge-node">CORS</span>
+          <span class="badge badge-node">JWT</span>
+        </div>
+        <div style="margin-bottom:1rem;">
+          <div style="font-family:'Share Tech Mono',monospace; font-size:0.68rem; color:#d580ff; letter-spacing:2px; margin-bottom:0.5rem;">AI / LLM</div>
+          <span class="badge badge-groq">Groq SDK</span>
+          <span class="badge badge-groq">LLaMA 3.3 70B</span>
+          <span class="badge badge-groq">LLaMA 4 Scout (Vision)</span>
+        </div>
+        <div>
+          <div style="font-family:'Share Tech Mono',monospace; font-size:0.68rem; color:#00c896; letter-spacing:2px; margin-bottom:0.5rem;">AUTH / DATA</div>
+          <span class="badge badge-supabase">Supabase Auth</span>
+          <span class="badge badge-supabase">Supabase JS</span>
+          <span class="badge badge-supabase">PostgreSQL</span>
+          <span class="badge badge-supabase">Razorpay</span>
+          <span class="badge badge-supabase">Google OAuth2</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE SUMMARY -->
+    <section>
+      <p class="section-label">// 09</p>
+      <h2 class="section-title">ARCHITECTURE SUMMARY</h2>
+      <div class="card">
+        <ul class="feat-list">
+          <li><span class="feat-bullet">&#9654;</span> <strong style="color:var(--text)">Desktop layer (Rust/Tauri v2):</strong> manages window stealth, system tray, native screen capture, and IPC bridge to the React WebView.</li>
+          <li><span class="feat-bullet">&#9654;</span> <strong style="color:var(--text)">UI layer (React/TypeScript):</strong> handles speech recognition, question submission, token-by-token SSE rendering, and code block parsing.</li>
+          <li><span class="feat-bullet">&#9654;</span> <strong style="color:var(--text)">Backend (Node.js/Express on Railway):</strong> serves the marketing site, proxies AI requests, manages Razorpay webhooks, rotates API keys, sends transactional email, and hosts the admin dashboard.</li>
+          <li><span class="feat-bullet">&#9654;</span> <strong style="color:var(--text)">Data layer (Supabase/PostgreSQL):</strong> stores users, license keys, analytics events, download records, and admin metrics.</li>
+          <li><span class="feat-bullet">&#9654;</span> <strong style="color:var(--text)">Auth (Supabase + Google OAuth2):</strong> users sign in on the marketing site to retrieve their license key; the admin dashboard is protected by a separate password gate.</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <div class="container">
+      LOOLY &mdash; TECHNICAL WORKFLOW &nbsp;|&nbsp; Built by Mohammed Shabaz Amin &nbsp;|&nbsp; 2026
+    </div>
+  </footer>
+
+</body>
+</html>

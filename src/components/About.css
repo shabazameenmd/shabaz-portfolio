@@ -116,7 +116,7 @@
 
 .info-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 1rem;
   padding: 1rem;
   margin-bottom: 0.75rem;
@@ -124,6 +124,41 @@
   border: 1px solid rgba(0, 245, 255, 0.08);
   border-radius: 10px;
   transition: all 0.3s;
+}
+
+.info-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.info-copy-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(0, 245, 255, 0.06);
+  border: 1px solid rgba(0, 245, 255, 0.15);
+  border-radius: 6px;
+  color: rgba(0, 245, 255, 0.5);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-left: auto;
+}
+
+.info-copy-btn:hover {
+  background: rgba(0, 245, 255, 0.15);
+  color: var(--neon-cyan);
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 10px rgba(0, 245, 255, 0.2);
+}
+
+.info-copy-btn.copied {
+  background: rgba(57, 255, 20, 0.1);
+  border-color: var(--neon-green);
+  color: var(--neon-green);
 }
 
 .info-item:hover {
@@ -169,6 +204,21 @@
   font-family: 'Share Tech Mono', monospace;
   font-size: 0.85rem;
   letter-spacing: 1px;
+}
+
+.hcl-logo-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: linear-gradient(90deg, #6b2fa0, #1a6fd4);
+  border-radius: 4px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  vertical-align: middle;
+  line-height: 1.6;
 }
 
 .pulse-dot {

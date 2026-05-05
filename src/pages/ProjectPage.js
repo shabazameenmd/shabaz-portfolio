@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   FiArrowLeft, FiCalendar, FiUser, FiDatabase, FiGithub,
-  FiExternalLink, FiBriefcase, FiCpu, FiCode,
+  FiExternalLink, FiBriefcase, FiCpu, FiCode, FiFileText,
 } from 'react-icons/fi';
 import { useProjects } from '../context/ProjectContext';
 import ImageCarousel from '../components/ImageCarousel';
@@ -193,6 +193,19 @@ export default function ProjectPage() {
                     <p key={i} className="pp-para">{para}</p>
                   ))}
                 </>
+              )}
+
+              {/* Technical Workflow link */}
+              {project.workflowUrl && (
+                <a
+                  href={project.workflowUrl}
+                  className="pp-workflow-link"
+                  style={{ '--proj-accent': project.color }}
+                >
+                  <FiFileText />
+                  <span>View Technical Workflow</span>
+                  <FiExternalLink style={{ marginLeft: 'auto', opacity: 0.6 }} />
+                </a>
               )}
 
               {/* GitHub card */}

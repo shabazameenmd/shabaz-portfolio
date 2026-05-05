@@ -1,5 +1,5 @@
 const DB_NAME = 'portfolio_db';
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 
 export function openDB() {
   return new Promise((resolve, reject) => {
@@ -11,6 +11,9 @@ export function openDB() {
       }
       if (!db.objectStoreNames.contains('project_images')) {
         db.createObjectStore('project_images');
+      }
+      if (!db.objectStoreNames.contains('resume')) {
+        db.createObjectStore('resume');
       }
     };
     req.onsuccess = (e) => resolve(e.target.result);

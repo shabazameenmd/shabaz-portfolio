@@ -11,6 +11,7 @@ import { useProjects } from '../context/ProjectContext';
 import { useAuth } from '../context/AuthContext';
 import { saveVideoFile, getVideoMeta, deleteVideoFile, formatFileSize } from '../utils/videoStorage';
 import { saveProjectImages, getProjectImages, deleteProjectImages } from '../utils/imageStorage';
+import { saveResumeFile, getResumeMeta, deleteResumeFile, formatResumeSize } from '../utils/resumeStorage';
 import './AdminDashboard.css';
 
 const VIDEO_KEY = 'portfolio_intro_video';
@@ -55,6 +56,12 @@ export default function AdminDashboard() {
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef(null);
 
+  // Resume upload state
+  const [resumeMeta, setResumeMeta] = useState(null);
+  const [resumeProgress, setResumeProgress] = useState(null); // null | 'saving' | 'done'
+  const [resumeDragOver, setResumeDragOver] = useState(false);
+  const resumeInputRef = useRef(null);
+
   // Image upload state for the project modal
   const [modalImages, setModalImages] = useState([]); // [{blob, url}]
   const modalImgUrlsRef = useRef([]);
@@ -66,7 +73,31 @@ export default function AdminDashboard() {
     setVideoTitle(localStorage.getItem(VIDEO_TITLE_KEY) || '');
     setVideoDesc(localStorage.getItem(VIDEO_DESC_KEY) || '');
     getVideoMeta().then(meta => setStoredFileMeta(meta)).catch(() => {});
+    getResumeMeta().then(meta => setResumeMeta(meta)).catch(() => {});
   }, []);
+
+  const handleResumeSelect = async (file) => {
+    if (!file || file.type !== 'application/pdf') return;
+    setResumeProgress('saving');
+    await saveResumeFile(file);
+    const meta = await getResumeMeta();
+    setResumeMeta(meta);
+    setResumeProgress('done');
+    window.dispatchEvent(new Event('portfolio_resume_updated'));
+    setTimeout(() => setResumeProgress(null), 3000);
+  };
+
+  const handleResumeDrop = (e) => {
+    e.preventDefault();
+    setResumeDragOver(false);
+    handleResumeSelect(e.dataTransfer.files[0]);
+  };
+
+  const clearResume = async () => {
+    await deleteResumeFile();
+    setResumeMeta(null);
+    window.dispatchEvent(new Event('portfolio_resume_updated'));
+  };
 
   const handleFileSelect = async (file) => {
     if (!file || !file.type.startsWith('video/')) return;
@@ -395,7 +426,7 @@ export default function AdminDashboard() {
 
         {/* ── Settings Tab ── */}
         {activeTab === 'settings' && (
-          <div className="ad-settings">
+          <div className="ad-settings" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <div className="ad-settings-card">
               <div className="ad-sc-header">
                 <FiVideo className="ad-sc-icon" />
@@ -535,6 +566,67 @@ export default function AdminDashboard() {
                       </motion.div>
                     )}
                   </>
+                )}
+              </div>
+            </div>
+            {/* ── Resume Upload Card ── */}
+            <div className="ad-settings-card">
+              <div className="ad-sc-header">
+                <FiFile className="ad-sc-icon" />
+                <div>
+                  <h3>Resume / CV</h3>
+                  <p>Upload your PDF resume — a Download Resume button will appear on the hero section of the portfolio.</p>
+                </div>
+              </div>
+
+              <div className="ad-sc-body">
+                <div
+                  className={`ad-dropzone ${resumeDragOver ? 'drag-over' : ''} ${resumeProgress === 'saving' ? 'uploading' : ''}`}
+                  onDragOver={(e) => { e.preventDefault(); setResumeDragOver(true); }}
+                  onDragLeave={() => setResumeDragOver(false)}
+                  onDrop={handleResumeDrop}
+                  onClick={() => resumeInputRef.current?.click()}
+                >
+                  <input
+                    ref={resumeInputRef}
+                    type="file"
+                    accept="application/pdf"
+                    style={{ display: 'none' }}
+                    onChange={(e) => handleResumeSelect(e.target.files[0])}
+                  />
+                  {resumeProgress === 'saving' ? (
+                    <>
+                      <div className="ad-dz-spinner" />
+                      <p className="ad-dz-title">Saving resume...</p>
+                      <p className="ad-dz-sub">Storing in browser database</p>
+                    </>
+                  ) : resumeProgress === 'done' ? (
+                    <>
+                      <FiCheckCircle className="ad-dz-done-icon" />
+                      <p className="ad-dz-title">Resume saved successfully!</p>
+                    </>
+                  ) : (
+                    <>
+                      <FiUpload className="ad-dz-icon" />
+                      <p className="ad-dz-title">Drag & drop your resume here</p>
+                      <p className="ad-dz-sub">or click to browse</p>
+                      <span className="ad-dz-formats">PDF only</span>
+                    </>
+                  )}
+                </div>
+
+                {resumeMeta && (
+                  <div className="ad-stored-file">
+                    <FiFile className="ad-sf-icon" />
+                    <div className="ad-sf-info">
+                      <span className="ad-sf-name">{resumeMeta.name}</span>
+                      <span className="ad-sf-size">{formatResumeSize(resumeMeta.size)}</span>
+                    </div>
+                    <span className="ad-sf-badge">✓ Active</span>
+                    <button className="ad-sv-clear" onClick={clearResume}>
+                      <FiX /> Remove
+                    </button>
+                  </div>
                 )}
               </div>
             </div>

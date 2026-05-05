@@ -1,7 +1,7 @@
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-  gap: 2rem;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
 }
 
 .project-card {
@@ -9,71 +9,81 @@
   background: rgba(10, 15, 26, 0.85);
   border: 1px solid rgba(0, 245, 255, 0.1);
   border-radius: 16px;
-  padding: 2rem;
+  padding: 0;
   transition: all 0.4s;
   overflow: hidden;
   backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: row;
 }
 
 .project-card:hover {
   border-color: var(--proj-color, var(--neon-cyan));
-  transform: translateY(-8px);
+  transform: translateY(-4px);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
 }
 
-.project-top-bar {
+/* ─── Vertical colour bar on the left ─── */
+.project-left-bar {
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--proj-color, var(--neon-cyan)), transparent);
+  top: 0; left: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--proj-color, var(--neon-cyan)), transparent);
+  flex-shrink: 0;
 }
 
 .project-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 0%, rgba(0, 245, 255, 0.06) 0%, transparent 70%);
+  background: radial-gradient(ellipse at 0% 50%, rgba(0, 245, 255, 0.05) 0%, transparent 60%);
   pointer-events: none;
   border-radius: 16px;
 }
 
-.project-header {
+/* ─── Left panel ─── */
+.project-left {
+  width: 260px;
+  flex-shrink: 0;
+  padding: 1.75rem 1.5rem 1.75rem 2rem;
   display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  flex-direction: column;
+  border-right: 1px solid rgba(0, 245, 255, 0.06);
 }
 
 .project-icon {
-  font-size: 2.2rem;
-  flex-shrink: 0;
+  font-size: 2rem;
   line-height: 1;
+  margin-bottom: 0.75rem;
 }
 
 .project-title {
   font-family: 'Orbitron', monospace;
-  font-size: 1rem;
+  font-size: 0.88rem;
   font-weight: 700;
   color: var(--proj-color, var(--neon-cyan));
   letter-spacing: 1px;
   margin-bottom: 4px;
+  line-height: 1.4;
 }
 
 .project-company {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   color: var(--text-secondary);
   letter-spacing: 0.5px;
+  margin-bottom: 1rem;
 }
 
 .project-meta {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1.2rem;
-  padding: 0.75rem 1rem;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-bottom: 1.25rem;
+  padding: 0.7rem 0.85rem;
   background: rgba(0, 245, 255, 0.03);
   border-radius: 8px;
   border: 1px solid rgba(0, 245, 255, 0.06);
+  margin-top: auto;
 }
 
 .project-meta span {
@@ -81,7 +91,7 @@
   align-items: center;
   gap: 6px;
   font-family: 'Share Tech Mono', monospace;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   color: var(--text-secondary);
 }
 
@@ -90,11 +100,20 @@
   flex-shrink: 0;
 }
 
+/* ─── Right panel ─── */
+.project-right {
+  flex: 1;
+  min-width: 0;
+  padding: 1.75rem 2rem 1.75rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+}
+
 .project-description {
   color: var(--text-secondary);
-  font-size: 0.95rem;
+  font-size: 0.93rem;
   line-height: 1.7;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .project-features h4 {
@@ -278,18 +297,21 @@
 .project-view-btn {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  margin-top: 1.25rem;
-  padding: 0.5rem 1.1rem;
+  gap: 8px;
+  margin-top: 1rem;
+  padding: 0.65rem 1.4rem;
   background: rgba(0, 245, 255, 0.05);
-  border: 1px solid rgba(0, 245, 255, 0.15);
+  border: 1px solid rgba(0, 245, 255, 0.25);
   border-radius: 8px;
   color: var(--proj-color, var(--neon-cyan));
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.75rem;
-  letter-spacing: 1px;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
   text-decoration: none;
   transition: all 0.25s;
+  align-self: flex-start;
+  text-transform: uppercase;
 }
 
 .project-view-btn:hover {
@@ -306,7 +328,21 @@
   padding: 3rem;
 }
 
-@media (max-width: 500px) {
-  .projects-grid { grid-template-columns: 1fr; }
+@media (max-width: 768px) {
+  .project-card { flex-direction: column; }
+  .project-left {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 245, 255, 0.06);
+    padding: 1.5rem 1.5rem 1.25rem 1.75rem;
+  }
+  .project-left-bar {
+    top: 0; left: 0; right: 0; bottom: auto;
+    width: auto;
+    height: 3px;
+    background: linear-gradient(90deg, var(--proj-color, var(--neon-cyan)), transparent);
+  }
+  .project-right { padding: 1.25rem 1.5rem 1.5rem; }
+  .project-meta { flex-direction: row; flex-wrap: wrap; gap: 0.6rem; }
   .projects-filters { gap: 6px; }
 }

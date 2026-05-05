@@ -25,7 +25,7 @@ const skillCategories = [
     title: 'Frontend & Process',
     color: '#ff006e',
     icon: '🖥️',
-    skills: ['JavaScript', 'HTML & CSS', 'SQL Queries', 'SCRUM / Agile', 'Design Patterns'],
+    skills: ['JavaScript', 'HTML & CSS', 'JSP'],
   },
   {
     title: 'AI & Prompt Engineering',

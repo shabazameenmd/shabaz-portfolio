@@ -57,58 +57,53 @@ export default function Projects() {
               onMouseEnter={() => setHovered(i)}
               onMouseLeave={() => setHovered(null)}
             >
-              <div className="project-top-bar" />
+              <div className="project-left-bar" />
 
-              {project.isAIAgent && (
-                <div className="project-ai-badge">
-                  <FiCpu /> AI Agent
-                </div>
-              )}
-
-              <div className="project-header">
+              <div className="project-left">
+                {project.isAIAgent && (
+                  <div className="project-ai-badge">
+                    <FiCpu /> AI Agent
+                  </div>
+                )}
                 <span className="project-icon">{project.icon}</span>
-                <div>
-                  <h3 className="project-title">{project.title}</h3>
-                  <p className="project-company">
-                    {project.company}{project.client ? ` — ${project.client}` : ''}
-                  </p>
+                <h3 className="project-title">{project.title}</h3>
+                <p className="project-company">
+                  {project.company}{project.client ? ` — ${project.client}` : ''}
+                </p>
+                <div className="project-meta">
+                  {project.duration && <span><FiCalendar /> {project.duration}</span>}
+                  {project.role && <span><FiUser /> {project.role}</span>}
+                  {project.db && <span><FiDatabase /> {project.db}</span>}
+                </div>
+                {project.slug && (
+                  <Link
+                    to={`/project/${project.slug}`}
+                    className="project-view-btn"
+                    style={{ '--proj-color': project.color }}
+                  >
+                    View Details <FiArrowRight />
+                  </Link>
+                )}
+              </div>
+
+              <div className="project-right">
+                <p className="project-description">{project.description}</p>
+                {project.keyFeatures?.length > 0 && (
+                  <div className="project-features">
+                    <h4>Key Highlights</h4>
+                    <ul>
+                      {project.keyFeatures.slice(0, 3).map((f, fi) => (
+                        <li key={fi}><span className="feat-bullet">▶</span>{f}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                <div className="project-tech">
+                  {project.tech?.map((t, ti) => (
+                    <span key={ti} className="proj-tag">{t}</span>
+                  ))}
                 </div>
               </div>
-
-              <div className="project-meta">
-                {project.duration && <span><FiCalendar /> {project.duration}</span>}
-                {project.role && <span><FiUser /> {project.role}</span>}
-                {project.db && <span><FiDatabase /> {project.db}</span>}
-              </div>
-
-              <p className="project-description">{project.description}</p>
-
-              {project.keyFeatures?.length > 0 && (
-                <div className="project-features">
-                  <h4>Key Highlights</h4>
-                  <ul>
-                    {project.keyFeatures.slice(0, 4).map((f, fi) => (
-                      <li key={fi}><span className="feat-bullet">▶</span>{f}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              <div className="project-tech">
-                {project.tech?.map((t, ti) => (
-                  <span key={ti} className="proj-tag">{t}</span>
-                ))}
-              </div>
-
-              {project.slug && (
-                <Link
-                  to={`/project/${project.slug}`}
-                  className="project-view-btn"
-                  style={{ '--proj-color': project.color }}
-                >
-                  View Details <FiArrowRight />
-                </Link>
-              )}
 
               <motion.div
                 className="project-glow"

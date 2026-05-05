@@ -158,10 +158,13 @@
 /* ─── Track wrapper ─── */
 .lr-track-outer {
   position: relative;
-  overflow-x: auto;
+  overflow-x: visible;
   padding: 3rem 0.5rem 0.5rem;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 245, 255, 0.1) transparent;
+  scrollbar-width: none;
+}
+
+.lr-track-outer::-webkit-scrollbar {
+  display: none;
 }
 
 /* ─── The horizontal line ─── */
@@ -256,9 +259,9 @@
 
 /* Upcoming */
 .lr-step--upcoming .lr-dot {
-  background: rgba(255, 255, 255, 0.02);
-  border: 2px dashed rgba(255, 255, 255, 0.18);
-  color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 165, 0, 0.08);
+  border: 2px dashed rgba(255, 165, 0, 0.6);
+  color: rgba(255, 165, 0, 0.85);
 }
 
 /* ─── Pulse rings for current ─── */
@@ -300,7 +303,7 @@
 
 .lr-step--done     .lr-name { color: rgba(0, 245, 255, 0.85); }
 .lr-step--current  .lr-name { color: #fff; font-weight: 700; letter-spacing: 0.5px; }
-.lr-step--upcoming .lr-name { color: rgba(255, 255, 255, 0.3); }
+.lr-step--upcoming .lr-name { color: rgba(255, 165, 0, 0.9); font-weight: 600; }
 
 .lr-sub {
   font-family: 'Rajdhani', sans-serif;
@@ -313,7 +316,7 @@
 
 .lr-sub--done     { color: rgba(0, 245, 255, 0.45); }
 .lr-sub--current  { color: var(--neon-purple); font-weight: 600; }
-.lr-sub--upcoming { color: rgba(255, 255, 255, 0.2); }
+.lr-sub--upcoming { color: rgba(255, 165, 0, 0.6); }
 
 /* ─── Blinking dot on "Learning Now" ─── */
 .lr-blink-dot {
@@ -367,8 +370,8 @@
 }
 .lr-leg--current               { color: var(--neon-purple); }
 
-.lr-leg--upcoming .lr-leg-dot { background: rgba(255, 255, 255, 0.2); border: 1px dashed rgba(255, 255, 255, 0.3); }
-.lr-leg--upcoming              { color: rgba(255, 255, 255, 0.3); }
+.lr-leg--upcoming .lr-leg-dot { background: rgba(255, 165, 0, 0.5); border: 1px dashed rgba(255, 165, 0, 0.6); }
+.lr-leg--upcoming              { color: rgba(255, 165, 0, 0.75); }
 
 /* ─── Responsive — vertical timeline on mobile ─── */
 @media (max-width: 768px) {
