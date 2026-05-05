@@ -61,7 +61,7 @@ export default function Contact() {
         >
           <h2 className="section-title">Contact</h2>
           <div className="neon-line" />
-          <p className="section-subtitle">// INITIATE.CONNECTION</p>
+          <p className="section-subtitle">{'// INITIATE.CONNECTION'}</p>
         </motion.div>
 
         <div className="contact-grid">
@@ -121,7 +121,7 @@ export default function Contact() {
           >
             <form className="contact-form" onSubmit={handleSubmit}>
               <div className="form-header">
-                <span className="form-prompt">// SEND.MESSAGE</span>
+                <span className="form-prompt">{'// SEND.MESSAGE'}</span>
               </div>
 
               <div className="form-row">

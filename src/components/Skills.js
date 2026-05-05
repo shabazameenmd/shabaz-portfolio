@@ -62,7 +62,7 @@ export default function Skills() {
         >
           <h2 className="section-title">Tech Arsenal</h2>
           <div className="neon-line" />
-          <p className="section-subtitle">// SKILLS.MATRIX</p>
+          <p className="section-subtitle">{'// SKILLS.MATRIX'}</p>
         </motion.div>
 
         {/* ── Skills box ── */}
@@ -120,7 +120,7 @@ export default function Skills() {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <div className="lr-header">
-            <p className="lr-header-tag">// SKILLS.ROADMAP</p>
+            <p className="lr-header-tag">{'// SKILLS.ROADMAP'}</p>
             <h3 className="lr-title">Learning Journey</h3>
             <p className="lr-desc">From mastered foundations to the frontier of autonomous AI</p>
           </div>

@@ -69,7 +69,7 @@ export default function Experience() {
         >
           <h2 className="section-title">Experience</h2>
           <div className="neon-line" />
-          <p className="section-subtitle">// EMPLOYMENT.HISTORY</p>
+          <p className="section-subtitle">{'// EMPLOYMENT.HISTORY'}</p>
         </motion.div>
 
         <div className="timeline">

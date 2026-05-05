@@ -20,7 +20,7 @@ export default function Projects() {
         >
           <h2 className="section-title">Projects</h2>
           <div className="neon-line" />
-          <p className="section-subtitle">// PROJECT.SHOWCASE</p>
+          <p className="section-subtitle">{'// PROJECT.SHOWCASE'}</p>
         </motion.div>
 
         {/* AI Agent priority banner */}

@@ -35,9 +35,7 @@ export default function VideoIntro() {
   const [videoUrl, setVideoUrl] = useState('');
   const [videoTitle, setVideoTitle] = useState('');
   const [videoDesc, setVideoDesc] = useState('');
-  const [isPlaying, setIsPlaying] = useState(false);
   const [showOverlay, setShowOverlay] = useState(true);
-  const [isBlobUrl, setIsBlobUrl] = useState(false);
   const videoRef = useRef(null);
   const blobUrlRef = useRef(null);
 
@@ -60,7 +58,6 @@ export default function VideoIntro() {
           blobUrlRef.current = null;
         }
         setVideoUrl(url);
-        setIsBlobUrl(false);
       } else {
         // If a blob is already loaded and nothing changed, don't recreate it
         if (blobUrlRef.current && !forceReload) return;
@@ -75,15 +72,13 @@ export default function VideoIntro() {
             if (!mounted) { URL.revokeObjectURL(blobUrl); return; }
             blobUrlRef.current = blobUrl;
             setVideoUrl(blobUrl);
-            setIsBlobUrl(true);
             setShowOverlay(true);
           } else {
             if (blobUrlRef.current) { URL.revokeObjectURL(blobUrlRef.current); blobUrlRef.current = null; }
             setVideoUrl('');
-            setIsBlobUrl(false);
           }
         } catch {
-          if (mounted) { setVideoUrl(''); setIsBlobUrl(false); }
+          if (mounted) { setVideoUrl(''); }
         }
       }
     };
@@ -106,7 +101,6 @@ export default function VideoIntro() {
 
   const handlePlayClick = () => {
     setShowOverlay(false);
-    setIsPlaying(true);
     if (videoRef.current) {
       videoRef.current.play();
     }
@@ -126,7 +120,7 @@ export default function VideoIntro() {
         >
           <h2 className="section-title">Meet The Developer</h2>
           <div className="neon-line" />
-          <p className="section-subtitle">// DEVELOPER.INTRO</p>
+          <p className="section-subtitle">{'// DEVELOPER.INTRO'}</p>
         </motion.div>
 
         <div className="vi-layout">
@@ -163,8 +157,7 @@ export default function VideoIntro() {
                       src={videoUrl}
                       controls
                       playsInline
-                      onPlay={() => { setIsPlaying(true); setShowOverlay(false); }}
-                      onPause={() => setIsPlaying(false)}
+                      onPlay={() => setShowOverlay(false)}
                     />
                     {showOverlay && (
                       <div className="vi-play-overlay" onClick={handlePlayClick}>

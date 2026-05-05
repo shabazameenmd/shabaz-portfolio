@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   FiArrowLeft, FiCalendar, FiUser, FiDatabase, FiGithub,
-  FiExternalLink, FiBriefcase, FiCpu, FiCode, FiFileText,
+  FiExternalLink, FiBriefcase, FiCpu, FiFileText,
 } from 'react-icons/fi';
 import { useProjects } from '../context/ProjectContext';
 import ImageCarousel from '../components/ImageCarousel';

@@ -15,7 +15,7 @@ export default function Footer() {
           Mohammed Shabaz Amin &nbsp;·&nbsp; Technical Lead @ HCLTech &nbsp;·&nbsp; Hyderabad, India
         </p>
         <p className="footer-copy">
-          <span className="footer-code">// Built with React.js &amp; Framer Motion</span>
+          <span className="footer-code">{'// Built with React.js'} &amp; Framer Motion</span>
         </p>
       </div>
     </footer>

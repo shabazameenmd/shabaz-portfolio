@@ -30,7 +30,7 @@ export default function About() {
         >
           <h2 className="section-title">About Me</h2>
           <div className="neon-line" />
-          <p className="section-subtitle">// IDENTITY.PROFILE</p>
+          <p className="section-subtitle">{'// IDENTITY.PROFILE'}</p>
         </motion.div>
 
         <div className="about-grid">
@@ -55,8 +55,8 @@ export default function About() {
                 <p className="indent2"><span className="str">"Apache Kafka"</span>, <span className="str">"AWS"</span></p>
                 <p className="indent">{'};'}</p>
                 <br />
-                <p className="indent"><span className="comment">// Currently working with Verizon Communications</span></p>
-                <p className="indent"><span className="comment">// Building enterprise-grade automation systems</span></p>
+                <p className="indent"><span className="comment">{'// Currently working with Verizon Communications'}</span></p>
+                <p className="indent"><span className="comment">{'// Building enterprise-grade automation systems'}</span></p>
                 <p>{'}'}</p>
               </div>
             </div>

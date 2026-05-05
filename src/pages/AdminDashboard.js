@@ -287,13 +287,13 @@ export default function AdminDashboard() {
           <a href="/" className="ad-home-btn">
             <FiHome /> Home
           </a>
-          <span className="ad-topbar-label">// ADMIN.CONSOLE</span>
+          <span className="ad-topbar-label">{'// ADMIN.CONSOLE'}</span>
         </div>
         {activeTab === 'projects' && (
         <><div className="ad-header">
           <div>
             <h1 className="ad-title">Project Management</h1>
-            <p className="ad-subtitle">// PORTFOLIO.ADMIN.CONSOLE</p>
+            <p className="ad-subtitle">{'// PORTFOLIO.ADMIN.CONSOLE'}</p>
           </div>
           <motion.button
             className="ad-add-btn"

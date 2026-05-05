@@ -67,7 +67,7 @@ export default function AdminLogin() {
             <FiLock />
           </div>
           <h1 className="al-title">Admin Console</h1>
-          <p className="al-subtitle">// AUTHORIZED PERSONNEL ONLY</p>
+          <p className="al-subtitle">{'// AUTHORIZED PERSONNEL ONLY'}</p>
         </div>
 
         <form className="al-form" onSubmit={handleSubmit}>
