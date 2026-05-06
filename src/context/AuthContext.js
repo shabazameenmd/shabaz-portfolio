@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 
-const ADMIN_USER = 'admin';
-const ADMIN_PASS = 'admin123';
+const ADMIN_USER = 'shabaz';
+const ADMIN_PASS = '08081a0543*#@A';
 
 const AuthContext = createContext();
 
