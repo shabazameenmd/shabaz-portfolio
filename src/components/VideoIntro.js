@@ -7,6 +7,7 @@ import './VideoIntro.css';
 const VIDEO_KEY = 'portfolio_intro_video';
 const VIDEO_TITLE_KEY = 'portfolio_intro_video_title';
 const VIDEO_DESC_KEY = 'portfolio_intro_video_desc';
+const DEFAULT_VIDEO_URL = 'https://www.youtube.com/watch?v=zy3weMJugTY';
 
 function getVideoType(url) {
   if (!url) return null;
@@ -43,7 +44,7 @@ export default function VideoIntro() {
     let mounted = true;
 
     const loadSource = async (forceReload = false) => {
-      const url = localStorage.getItem(VIDEO_KEY) || '';
+      const url = localStorage.getItem(VIDEO_KEY) || DEFAULT_VIDEO_URL;
       const title = localStorage.getItem(VIDEO_TITLE_KEY) || 'Developer Introduction';
       const desc = localStorage.getItem(VIDEO_DESC_KEY) || '';
 
