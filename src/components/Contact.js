@@ -103,7 +103,8 @@ export default function Contact() {
                   <button
                     className={`contact-copy-btn ${copiedIndex === i ? 'copied' : ''}`}
                     onClick={(e) => handleCopy(e, item.value, i)}
-                    title="Copy email"
+                    title={`Copy ${item.label}`}
+                    aria-label={`Copy ${item.label}`}
                   >
                     {copiedIndex === i ? <FiCheck /> : <FiCopy />}
                   </button>

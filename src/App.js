@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ProjectProvider } from './context/ProjectContext';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import ScrollToTop from './components/ScrollToTop';
 import HomePage from './pages/HomePage';
 import ProjectPage from './pages/ProjectPage';
 import AdminLogin from './pages/AdminLogin';
@@ -13,6 +14,7 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <ProjectProvider>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/project/:slug" element={<ProjectPage />} />

@@ -46,6 +46,7 @@ export default function ProjectPage() {
   }
 
   const related = projects.filter(p => p.id !== project.id && p.category === project.category).slice(0, 3);
+  const safeUrl = (url) => url && /^https?:\/\//i.test(url) ? url : null;
 
   return (
     <div className="pp-page">
@@ -100,13 +101,13 @@ export default function ProjectPage() {
             <p className="pp-hero-desc">{project.description}</p>
 
             <div className="pp-hero-actions">
-              {project.github && (
-                <a href={project.github} target="_blank" rel="noopener noreferrer" className="pp-btn-primary">
+              {safeUrl(project.github) && (
+                <a href={safeUrl(project.github)} target="_blank" rel="noopener noreferrer" className="pp-btn-primary">
                   <FiGithub /> View on GitHub
                 </a>
               )}
-              {project.liveUrl && (
-                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="pp-btn-secondary">
+              {safeUrl(project.liveUrl) && (
+                <a href={safeUrl(project.liveUrl)} target="_blank" rel="noopener noreferrer" className="pp-btn-secondary">
                   <FiExternalLink /> Live Demo
                 </a>
               )}
@@ -210,19 +211,19 @@ export default function ProjectPage() {
 
               {/* GitHub card */}
               <a
-                href={project.github || undefined}
+                href={safeUrl(project.github) || undefined}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`pp-github-card ${!project.github ? 'pp-github-card--empty' : ''}`}
+                className={`pp-github-card ${!safeUrl(project.github) ? 'pp-github-card--empty' : ''}`}
                 style={{ '--proj-accent': project.color }}
-                onClick={e => !project.github && e.preventDefault()}
+                onClick={e => !safeUrl(project.github) && e.preventDefault()}
               >
                 <div className="pp-gh-icon-wrap"><FiGithub /></div>
                 <div className="pp-gh-body">
                   <span className="pp-gh-label">GitHub Repository</span>
                   <span className="pp-gh-url">{project.github || 'No repository link added yet'}</span>
                 </div>
-                {project.github && (
+                {safeUrl(project.github) && (
                   <div className="pp-gh-action"><FiExternalLink /><span>View Code</span></div>
                 )}
               </a>

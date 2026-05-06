@@ -98,7 +98,7 @@ export default function AdminLogin() {
                 autoComplete="current-password"
                 required
               />
-              <button type="button" className="al-eye-btn" onClick={() => setShowPw(v => !v)}>
+              <button type="button" className="al-eye-btn" onClick={() => setShowPw(v => !v)} aria-label={showPw ? 'Hide password' : 'Show password'}>
                 {showPw ? <FiEyeOff /> : <FiEye />}
               </button>
             </div>
